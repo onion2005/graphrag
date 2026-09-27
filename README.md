@@ -32,7 +32,7 @@ Traditional RAG retrieves code by semantic similarity — but misses structural 
 
 ### GraphRAG Evaluation
 
-- AST graph expansion nearly **triples total recall** (19.8% → 54.8%) — finds symbols embeddings miss entirely
+- AST graph expansion **more than doubles total recall** (27.4% → 70.3%) — finds symbols embeddings miss entirely
 - Graph is a **pure recall expander**: top-k ranking (Recall@10, NDCG@10) is identical with or without graph — graph nodes rank below vector hits
 - LLM-extracted edges added zero value — CALLS/INHERITS edges from the AST parser did all the work
 - Graph without vector entry points is useless — you need both, in sequence

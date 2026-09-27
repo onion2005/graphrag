@@ -1,50 +1,319 @@
 {
-  "version": "1.0",
-  "generated_at": "2026-09-26T05:15:55.650297+00:00",
-  "generated_by": "Qwen/Qwen2.5-7B-Instruct",
+  "version": "2.0",
+  "generated_at": "2026-09-27T07:10:37.334846+00:00",
+  "generated_by": "claude-haiku-4-5-20251001",
   "reviewed": false,
   "queries": [
     {
-      "query": "What is the relationship between AsyncClient and BaseClient?",
+      "query": "What methods does the Client class have for making HTTP requests?",
       "expected_symbols": [
         {
-          "name": "AsyncClient",
+          "name": "Client",
           "file": "httpx/_client.py",
           "type": "class",
           "relevance": 3
         },
         {
-          "name": "BaseClient",
+          "name": "Client.get",
           "file": "httpx/_client.py",
-          "type": "class",
+          "type": "function",
           "relevance": 3
+        },
+        {
+          "name": "Client.post",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "Client.put",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "Client.delete",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "Client.request",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
         }
       ],
       "id": "q01",
       "category": "structural_navigation"
     },
     {
-      "query": "How does the DigestAuth class interact with the Auth interface?",
+      "query": "How does the Response class handle different content encodings and decoders?",
       "expected_symbols": [
         {
-          "name": "DigestAuth",
-          "file": "httpx/_auth.py",
+          "name": "Response",
+          "file": "httpx/_models.py",
           "type": "class",
           "relevance": 3
         },
         {
-          "name": "Auth",
-          "file": "httpx/_auth.py",
+          "name": "Response._get_content_decoder",
+          "file": "httpx/_models.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "Response.iter_bytes",
+          "file": "httpx/_models.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "ContentDecoder",
+          "file": "httpx/_decoders.py",
           "type": "class",
           "relevance": 2
+        },
+        {
+          "name": "GZipDecoder",
+          "file": "httpx/_decoders.py",
+          "type": "class",
+          "relevance": 1
+        },
+        {
+          "name": "BrotliDecoder",
+          "file": "httpx/_decoders.py",
+          "type": "class",
+          "relevance": 1
         }
       ],
       "id": "q02",
       "category": "structural_navigation"
     },
     {
-      "query": "How does httpx handle basic authentication?",
+      "query": "What is the inheritance hierarchy of Auth classes and how do they implement auth_flow?",
       "expected_symbols": [
+        {
+          "name": "Auth",
+          "file": "httpx/_auth.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "Auth.auth_flow",
+          "file": "httpx/_auth.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "BasicAuth",
+          "file": "httpx/_auth.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "BasicAuth.auth_flow",
+          "file": "httpx/_auth.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "DigestAuth",
+          "file": "httpx/_auth.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "DigestAuth.auth_flow",
+          "file": "httpx/_auth.py",
+          "type": "function",
+          "relevance": 2
+        }
+      ],
+      "id": "q03",
+      "category": "structural_navigation"
+    },
+    {
+      "query": "What transport classes are available and how do they handle requests?",
+      "expected_symbols": [
+        {
+          "name": "BaseTransport",
+          "file": "httpx/_transports/base.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "BaseTransport.handle_request",
+          "file": "httpx/_transports/base.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "HTTPTransport",
+          "file": "httpx/_transports/default.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "HTTPTransport.handle_request",
+          "file": "httpx/_transports/default.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "MockTransport",
+          "file": "httpx/_transports/mock.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "ASGITransport",
+          "file": "httpx/_transports/asgi.py",
+          "type": "class",
+          "relevance": 1
+        }
+      ],
+      "id": "q04",
+      "category": "structural_navigation"
+    },
+    {
+      "query": "How does the BaseClient class build and merge request components like headers, cookies, and query parameters?",
+      "expected_symbols": [
+        {
+          "name": "BaseClient",
+          "file": "httpx/_client.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "BaseClient._merge_headers",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "BaseClient._merge_cookies",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "BaseClient._merge_queryparams",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "BaseClient.build_request",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "BaseClient._merge_url",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 1
+        }
+      ],
+      "id": "q05",
+      "category": "structural_navigation"
+    },
+    {
+      "query": "What are the different content encoding classes and how do they decode data?",
+      "expected_symbols": [
+        {
+          "name": "ContentDecoder",
+          "file": "httpx/_decoders.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "ContentDecoder.decode",
+          "file": "httpx/_decoders.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "GZipDecoder",
+          "file": "httpx/_decoders.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "DeflateDecoder",
+          "file": "httpx/_decoders.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "TextDecoder",
+          "file": "httpx/_decoders.py",
+          "type": "class",
+          "relevance": 1
+        },
+        {
+          "name": "MultiDecoder",
+          "file": "httpx/_decoders.py",
+          "type": "class",
+          "relevance": 1
+        }
+      ],
+      "id": "q06",
+      "category": "structural_navigation"
+    },
+    {
+      "query": "How does the URL class handle parameter and query string manipulation?",
+      "expected_symbols": [
+        {
+          "name": "URL",
+          "file": "httpx/_urls.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "URL.copy_set_param",
+          "file": "httpx/_urls.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "URL.copy_merge_params",
+          "file": "httpx/_urls.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "QueryParams",
+          "file": "httpx/_urls.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "URL.copy_add_param",
+          "file": "httpx/_urls.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "URL.copy_remove_param",
+          "file": "httpx/_urls.py",
+          "type": "function",
+          "relevance": 2
+        }
+      ],
+      "id": "q07",
+      "category": "structural_navigation"
+    },
+    {
+      "query": "How does httpx implement different authentication methods?",
+      "expected_symbols": [
+        {
+          "name": "Auth",
+          "file": "httpx/_auth.py",
+          "type": "class",
+          "relevance": 3
+        },
         {
           "name": "BasicAuth",
           "file": "httpx/_auth.py",
@@ -52,211 +321,9 @@
           "relevance": 3
         },
         {
-          "name": "DigestAuth.__init__",
+          "name": "DigestAuth",
           "file": "httpx/_auth.py",
-          "type": "function",
-          "relevance": 2
-        }
-      ],
-      "id": "q03",
-      "category": "semantic_similarity"
-    },
-    {
-      "query": "What methods does httpx use to serialize data into a request body?",
-      "expected_symbols": [
-        {
-          "name": "encode_multipart_data",
-          "file": "httpx/_content.py",
-          "type": "function",
-          "relevance": 3
-        },
-        {
-          "name": "encode_request",
-          "file": "httpx/_content.py",
-          "type": "function",
-          "relevance": 2
-        }
-      ],
-      "id": "q04",
-      "category": "semantic_similarity"
-    },
-    {
-      "query": "How does httpx manage cookies across requests?",
-      "expected_symbols": [
-        {
-          "name": "Cookies",
-          "file": "httpx/_models.py",
           "type": "class",
-          "relevance": 3
-        },
-        {
-          "name": "Request.__setstate__",
-          "file": "httpx/_models.py",
-          "type": "function",
-          "relevance": 2
-        }
-      ],
-      "id": "q05",
-      "category": "semantic_similarity"
-    },
-    {
-      "query": "What are the different types of timeouts that can be configured in httpx?",
-      "expected_symbols": [
-        {
-          "name": "Timeout",
-          "file": "httpx/_config.py",
-          "type": "class",
-          "relevance": 3
-        },
-        {
-          "name": "test_read_timeout",
-          "file": "tests/test_timeouts.py",
-          "type": "function",
-          "relevance": 2
-        }
-      ],
-      "id": "q06",
-      "category": "semantic_similarity"
-    },
-    {
-      "query": "How does httpx handle streaming responses?",
-      "expected_symbols": [
-        {
-          "name": "Response.aiter_text",
-          "file": "httpx/_models.py",
-          "type": "function",
-          "relevance": 3
-        },
-        {
-          "name": "Response.iter_lines",
-          "file": "httpx/_models.py",
-          "type": "function",
-          "relevance": 2
-        }
-      ],
-      "id": "q07",
-      "category": "semantic_similarity"
-    },
-    {
-      "query": "How does httpx handle custom exceptions during request processing?",
-      "expected_symbols": [
-        {
-          "name": "HTTPError",
-          "file": "httpx/_exceptions.py",
-          "type": "class",
-          "relevance": 3
-        },
-        {
-          "name": "RequestError",
-          "file": "httpx/_exceptions.py",
-          "type": "class",
-          "relevance": 2
-        }
-      ],
-      "id": "q08",
-      "category": "semantic_similarity"
-    },
-    {
-      "query": "How does httpx manage asynchronous client sessions?",
-      "expected_symbols": [
-        {
-          "name": "AsyncClient",
-          "file": "httpx/_client.py",
-          "type": "class",
-          "relevance": 3
-        },
-        {
-          "name": "AsyncClient.__aenter__",
-          "file": "httpx/_client.py",
-          "type": "function",
-          "relevance": 2
-        },
-        {
-          "name": "AsyncClient.aclose",
-          "file": "httpx/_client.py",
-          "type": "function",
-          "relevance": 2
-        }
-      ],
-      "id": "q09",
-      "category": "cross_file_dependency"
-    },
-    {
-      "query": "What is the process for handling redirects in httpx?",
-      "expected_symbols": [
-        {
-          "name": "BaseClient._redirect_headers",
-          "file": "httpx/_client.py",
-          "type": "function",
-          "relevance": 3
-        },
-        {
-          "name": "codes.is_redirect",
-          "file": "httpx/_status_codes.py",
-          "type": "function",
-          "relevance": 2
-        },
-        {
-          "name": "RequestNotRead",
-          "file": "httpx/_exceptions.py",
-          "type": "class",
-          "relevance": 1
-        }
-      ],
-      "id": "q10",
-      "category": "cross_file_dependency"
-    },
-    {
-      "query": "How does httpx configure timeouts for client requests?",
-      "expected_symbols": [
-        {
-          "name": "Timeout",
-          "file": "httpx/_config.py",
-          "type": "class",
-          "relevance": 3
-        },
-        {
-          "name": "BaseClient._set_timeout",
-          "file": "httpx/_client.py",
-          "type": "function",
-          "relevance": 2
-        },
-        {
-          "name": "test_timeout_from_tuple",
-          "file": "tests/test_config.py",
-          "type": "function",
-          "relevance": 1
-        }
-      ],
-      "id": "q11",
-      "category": "cross_file_dependency"
-    },
-    {
-      "query": "What is the mechanism for building request headers in httpx?",
-      "expected_symbols": [
-        {
-          "name": "Headers",
-          "file": "httpx/_models.py",
-          "type": "class",
-          "relevance": 3
-        },
-        {
-          "name": "BaseClient._build_request_auth",
-          "file": "httpx/_client.py",
-          "type": "function",
-          "relevance": 2
-        }
-      ],
-      "id": "q12",
-      "category": "cross_file_dependency"
-    },
-    {
-      "query": "How does httpx handle authentication for requests?",
-      "expected_symbols": [
-        {
-          "name": "Auth.auth_flow",
-          "file": "httpx/_auth.py",
-          "type": "function",
           "relevance": 3
         },
         {
@@ -272,62 +339,288 @@
           "relevance": 2
         }
       ],
-      "id": "q13",
-      "category": "cross_file_dependency"
+      "id": "q08",
+      "category": "semantic_similarity"
     },
     {
-      "query": "What is the flow for handling multipart form data in httpx?",
+      "query": "What are the different ways to decode response content in httpx?",
       "expected_symbols": [
         {
-          "name": "MultipartStream",
-          "file": "httpx/_multipart.py",
+          "name": "ContentDecoder",
+          "file": "httpx/_decoders.py",
           "type": "class",
           "relevance": 3
         },
         {
-          "name": "DataField",
-          "file": "httpx/_multipart.py",
+          "name": "GZipDecoder",
+          "file": "httpx/_decoders.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "DeflateDecoder",
+          "file": "httpx/_decoders.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "BrotliDecoder",
+          "file": "httpx/_decoders.py",
           "type": "class",
           "relevance": 2
         },
         {
-          "name": "FileField",
-          "file": "httpx/_multipart.py",
+          "name": "ZStandardDecoder",
+          "file": "httpx/_decoders.py",
           "type": "class",
           "relevance": 2
+        },
+        {
+          "name": "IdentityDecoder",
+          "file": "httpx/_decoders.py",
+          "type": "class",
+          "relevance": 1
         }
       ],
-      "id": "q14",
-      "category": "cross_file_dependency"
+      "id": "q09",
+      "category": "semantic_similarity"
     },
     {
-      "query": "How does httpx manage SSL/TLS configurations for client connections?",
+      "query": "How can I make HTTP requests in httpx - sync and async patterns?",
       "expected_symbols": [
         {
-          "name": "Proxy",
-          "file": "httpx/_config.py",
+          "name": "Client",
+          "file": "httpx/_client.py",
           "type": "class",
           "relevance": 3
         },
         {
-          "name": "validate_json",
-          "file": "httpx/_main.py",
+          "name": "AsyncClient",
+          "file": "httpx/_client.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "BaseClient",
+          "file": "httpx/_client.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "request",
+          "file": "httpx/_api.py",
           "type": "function",
           "relevance": 2
         },
         {
-          "name": "test_load_ssl_config_verify_directory",
-          "file": "tests/test_config.py",
+          "name": "get",
+          "file": "httpx/_api.py",
           "type": "function",
           "relevance": 1
         }
       ],
-      "id": "q15",
-      "category": "cross_file_dependency"
+      "id": "q10",
+      "category": "semantic_similarity"
     },
     {
-      "query": "How does httpx handle authentication with custom headers?",
+      "query": "What transport implementations are available for httpx?",
       "expected_symbols": [
+        {
+          "name": "BaseTransport",
+          "file": "httpx/_transports/base.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "AsyncBaseTransport",
+          "file": "httpx/_transports/base.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "HTTPTransport",
+          "file": "httpx/_transports/default.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "AsyncHTTPTransport",
+          "file": "httpx/_transports/default.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "ASGITransport",
+          "file": "httpx/_transports/asgi.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "WSGITransport",
+          "file": "httpx/_transports/wsgi.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "MockTransport",
+          "file": "httpx/_transports/mock.py",
+          "type": "class",
+          "relevance": 2
+        }
+      ],
+      "id": "q11",
+      "category": "semantic_similarity"
+    },
+    {
+      "query": "How does httpx encode different types of request content?",
+      "expected_symbols": [
+        {
+          "name": "encode_content",
+          "file": "httpx/_content.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "encode_json",
+          "file": "httpx/_content.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "encode_urlencoded_data",
+          "file": "httpx/_content.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "encode_multipart_data",
+          "file": "httpx/_content.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "encode_text",
+          "file": "httpx/_content.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "encode_html",
+          "file": "httpx/_content.py",
+          "type": "function",
+          "relevance": 1
+        }
+      ],
+      "id": "q12",
+      "category": "semantic_similarity"
+    },
+    {
+      "query": "What stream implementations are used for reading request/response content?",
+      "expected_symbols": [
+        {
+          "name": "ByteStream",
+          "file": "httpx/_content.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "AsyncIteratorByteStream",
+          "file": "httpx/_content.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "IteratorByteStream",
+          "file": "httpx/_content.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "UnattachedStream",
+          "file": "httpx/_content.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "BoundAsyncStream",
+          "file": "httpx/_client.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "BoundSyncStream",
+          "file": "httpx/_client.py",
+          "type": "class",
+          "relevance": 2
+        }
+      ],
+      "id": "q13",
+      "category": "semantic_similarity"
+    },
+    {
+      "query": "What are the exception types for different error conditions in httpx?",
+      "expected_symbols": [
+        {
+          "name": "HTTPError",
+          "file": "httpx/_exceptions.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "NetworkError",
+          "file": "httpx/_exceptions.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "TimeoutException",
+          "file": "httpx/_exceptions.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "RequestError",
+          "file": "httpx/_exceptions.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "ConnectError",
+          "file": "httpx/_exceptions.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "ReadTimeout",
+          "file": "httpx/_exceptions.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "ProtocolError",
+          "file": "httpx/_exceptions.py",
+          "type": "class",
+          "relevance": 1
+        }
+      ],
+      "id": "q14",
+      "category": "semantic_similarity"
+    },
+    {
+      "query": "How does the Client class handle authentication flows when sending requests?",
+      "expected_symbols": [
+        {
+          "name": "Client",
+          "file": "httpx/_client.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "Client._send_handling_auth",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 3
+        },
         {
           "name": "Auth",
           "file": "httpx/_auth.py",
@@ -335,48 +628,66 @@
           "relevance": 3
         },
         {
+          "name": "BaseClient._build_request_auth",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
           "name": "BasicAuth",
           "file": "httpx/_auth.py",
           "type": "class",
-          "relevance": 2
-        },
-        {
-          "name": "FunctionAuth",
-          "file": "httpx/_auth.py",
-          "type": "class",
-          "relevance": 2
+          "relevance": 1
         }
       ],
-      "id": "q16",
-      "category": "api_surface"
+      "id": "q15",
+      "category": "cross_file_dependency"
     },
     {
-      "query": "What are the steps to send a multipart request using httpx?",
+      "query": "What happens when a redirect response is received and how does the client rebuild the request?",
       "expected_symbols": [
         {
-          "name": "MultipartStream",
-          "file": "httpx/_multipart.py",
-          "type": "class",
+          "name": "Client._send_handling_redirects",
+          "file": "httpx/_client.py",
+          "type": "function",
           "relevance": 3
         },
         {
-          "name": "DataField",
-          "file": "httpx/_multipart.py",
+          "name": "BaseClient._build_redirect_request",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "BaseClient._redirect_url",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "BaseClient._redirect_headers",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "Request",
+          "file": "httpx/_models.py",
           "type": "class",
           "relevance": 2
         },
         {
-          "name": "MultipartStream._iter_fields",
-          "file": "httpx/_multipart.py",
+          "name": "_is_https_redirect",
+          "file": "httpx/_client.py",
           "type": "function",
-          "relevance": 2
+          "relevance": 1
         }
       ],
-      "id": "q17",
-      "category": "api_surface"
+      "id": "q16",
+      "category": "cross_file_dependency"
     },
     {
-      "query": "How do I configure timeouts in httpx clients?",
+      "query": "How does the timeout configuration get applied to client requests?",
       "expected_symbols": [
         {
           "name": "Timeout",
@@ -388,58 +699,468 @@
           "name": "BaseClient._set_timeout",
           "file": "httpx/_client.py",
           "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "BaseClient.timeout",
+          "file": "httpx/_client.py",
+          "type": "function",
           "relevance": 2
+        },
+        {
+          "name": "Timeout.__init__",
+          "file": "httpx/_config.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "Timeout.as_dict",
+          "file": "httpx/_config.py",
+          "type": "function",
+          "relevance": 1
+        }
+      ],
+      "id": "q17",
+      "category": "cross_file_dependency"
+    },
+    {
+      "query": "How are proxy settings configured and used by the Client to route requests?",
+      "expected_symbols": [
+        {
+          "name": "Proxy",
+          "file": "httpx/_config.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "Client._init_proxy_transport",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "BaseClient._get_proxy_map",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "Client._transport_for_url",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "Proxy.__init__",
+          "file": "httpx/_config.py",
+          "type": "function",
+          "relevance": 1
         }
       ],
       "id": "q18",
+      "category": "cross_file_dependency"
+    },
+    {
+      "query": "How does encoding and content decoding work across different response types?",
+      "expected_symbols": [
+        {
+          "name": "Response",
+          "file": "httpx/_models.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "Response._get_content_decoder",
+          "file": "httpx/_models.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "ContentDecoder",
+          "file": "httpx/_decoders.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "Response.encoding",
+          "file": "httpx/_models.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "GZipDecoder",
+          "file": "httpx/_decoders.py",
+          "type": "class",
+          "relevance": 1
+        },
+        {
+          "name": "Response.text",
+          "file": "httpx/_models.py",
+          "type": "function",
+          "relevance": 1
+        }
+      ],
+      "id": "q19",
+      "category": "cross_file_dependency"
+    },
+    {
+      "query": "How does the AsyncClient manage transport initialization and connection pooling?",
+      "expected_symbols": [
+        {
+          "name": "AsyncClient",
+          "file": "httpx/_client.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "AsyncClient._init_transport",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "AsyncHTTPTransport",
+          "file": "httpx/_transports/default.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "AsyncClient.__init__",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "BaseClient.__init__",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "Limits",
+          "file": "httpx/_config.py",
+          "type": "class",
+          "relevance": 1
+        }
+      ],
+      "id": "q20",
+      "category": "cross_file_dependency"
+    },
+    {
+      "query": "How do Headers and Cookies get merged when building a request from client configuration?",
+      "expected_symbols": [
+        {
+          "name": "BaseClient._merge_headers",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "BaseClient._merge_cookies",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "Headers",
+          "file": "httpx/_models.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "Cookies",
+          "file": "httpx/_models.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "BaseClient.build_request",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "Request",
+          "file": "httpx/_models.py",
+          "type": "class",
+          "relevance": 1
+        }
+      ],
+      "id": "q21",
+      "category": "cross_file_dependency"
+    },
+    {
+      "query": "How do I make HTTP requests using httpx?",
+      "expected_symbols": [
+        {
+          "name": "Client",
+          "file": "httpx/_client.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "AsyncClient",
+          "file": "httpx/_client.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "request",
+          "file": "httpx/_api.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "get",
+          "file": "httpx/_api.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "post",
+          "file": "httpx/_api.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "Client.request",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 3
+        }
+      ],
+      "id": "q22",
       "category": "api_surface"
     },
     {
-      "query": "What exceptions can occur when handling responses in httpx?",
+      "query": "What authentication methods does httpx support?",
       "expected_symbols": [
+        {
+          "name": "Auth",
+          "file": "httpx/_auth.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "BasicAuth",
+          "file": "httpx/_auth.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "DigestAuth",
+          "file": "httpx/_auth.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "NetRCAuth",
+          "file": "httpx/_auth.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "FunctionAuth",
+          "file": "httpx/_auth.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "Auth.auth_flow",
+          "file": "httpx/_auth.py",
+          "type": "function",
+          "relevance": 2
+        }
+      ],
+      "id": "q23",
+      "category": "api_surface"
+    },
+    {
+      "query": "How do I handle response content and streaming in httpx?",
+      "expected_symbols": [
+        {
+          "name": "Response",
+          "file": "httpx/_models.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "Response.read",
+          "file": "httpx/_models.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "Response.aread",
+          "file": "httpx/_models.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "Response.iter_bytes",
+          "file": "httpx/_models.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "Response.aiter_bytes",
+          "file": "httpx/_models.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "Response.text",
+          "file": "httpx/_models.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "Client.stream",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        }
+      ],
+      "id": "q24",
+      "category": "api_surface"
+    },
+    {
+      "query": "What exceptions can httpx raise and how do I handle them?",
+      "expected_symbols": [
+        {
+          "name": "HTTPError",
+          "file": "httpx/_exceptions.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "RequestError",
+          "file": "httpx/_exceptions.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "TimeoutException",
+          "file": "httpx/_exceptions.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "NetworkError",
+          "file": "httpx/_exceptions.py",
+          "type": "class",
+          "relevance": 2
+        },
         {
           "name": "HTTPStatusError",
           "file": "httpx/_exceptions.py",
           "type": "class",
-          "relevance": 3
+          "relevance": 2
         },
         {
-          "name": "RequestNotRead",
+          "name": "ReadTimeout",
           "file": "httpx/_exceptions.py",
           "type": "class",
           "relevance": 2
         },
         {
-          "name": "ResponseNotRead",
+          "name": "ConnectError",
           "file": "httpx/_exceptions.py",
           "type": "class",
-          "relevance": 2
+          "relevance": 1
         }
       ],
-      "id": "q19",
+      "id": "q25",
       "category": "api_surface"
     },
     {
-      "query": "What is the process for handling redirects in httpx clients?",
+      "query": "How do I configure timeouts and connection limits in httpx?",
       "expected_symbols": [
         {
-          "name": "BaseClient._redirect_method",
-          "file": "httpx/_client.py",
+          "name": "Timeout",
+          "file": "httpx/_config.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "Limits",
+          "file": "httpx/_config.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "Timeout.__init__",
+          "file": "httpx/_config.py",
           "type": "function",
           "relevance": 3
         },
         {
-          "name": "_is_https_redirect",
+          "name": "Limits.__init__",
+          "file": "httpx/_config.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "BaseClient.timeout",
           "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "Timeout.as_dict",
+          "file": "httpx/_config.py",
+          "type": "function",
+          "relevance": 1
+        }
+      ],
+      "id": "q26",
+      "category": "api_surface"
+    },
+    {
+      "query": "How do I work with URLs and query parameters in httpx?",
+      "expected_symbols": [
+        {
+          "name": "URL",
+          "file": "httpx/_urls.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "QueryParams",
+          "file": "httpx/_urls.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "URL.copy_with",
+          "file": "httpx/_urls.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "QueryParams.add",
+          "file": "httpx/_urls.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "URL.copy_merge_params",
+          "file": "httpx/_urls.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "QueryParams.merge",
+          "file": "httpx/_urls.py",
           "type": "function",
           "relevance": 2
         }
       ],
-      "id": "q20",
+      "id": "q27",
       "category": "api_surface"
     },
     {
-      "query": "How do I set and manage cookies in httpx requests?",
+      "query": "How do I use cookies and headers with httpx requests?",
       "expected_symbols": [
         {
           "name": "Cookies",
@@ -448,13 +1169,43 @@
           "relevance": 3
         },
         {
+          "name": "Headers",
+          "file": "httpx/_models.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "BaseClient.cookies",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
           "name": "BaseClient.headers",
           "file": "httpx/_client.py",
           "type": "function",
           "relevance": 2
+        },
+        {
+          "name": "Cookies.set",
+          "file": "httpx/_models.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "Headers.update",
+          "file": "httpx/_models.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "Request",
+          "file": "httpx/_models.py",
+          "type": "class",
+          "relevance": 1
         }
       ],
-      "id": "q21",
+      "id": "q28",
       "category": "api_surface"
     }
   ]

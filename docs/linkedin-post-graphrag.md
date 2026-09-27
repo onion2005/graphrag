@@ -14,9 +14,9 @@ So I built a GraphRAG system: vector search finds the entry points, then graph e
 
 **The results that changed my assumptions:**
 
-AST graph expansion nearly **tripled total recall** — from 19.8% to 54.8%. But it didn't improve top-k ranking at all. Recall@5, Recall@10, NDCG@10 were identical with or without the graph. Here's what that means:
+AST graph expansion **more than doubled total recall** — from 27.4% to 70.3%. But it didn't improve top-k ranking. Recall@5, Recall@10, NDCG@10 were identical with or without the graph. Here's what that means:
 
-1. **Graph is a pure recall expander, not a ranker.** It finds relevant symbols that embeddings miss entirely — but those symbols rank below the vector hits. The graph fills in the long tail, not the top of the list. This matters: if your application only looks at top-10 results, graph adds nothing. If it can use 20-30 results (like an agent with tool calls), graph is a significant win.
+1. **Graph is a pure recall expander, not a ranker.** It finds relevant symbols that embeddings miss entirely — but those symbols rank below the vector hits. The graph fills in the long tail, not the top of the list. This matters: if your application only looks at top-10 results, graph adds nothing. If it can use 20-30 results (like an agent with tool calls), graph is a 2.6x recall win.
 
 2. **LLM-extracted edges added zero value.** I spent tokens having an LLM classify SIMILAR_TO / DEPENDS_ON relationships between symbols. The AST edges (CALLS, INHERITS, IMPORTS) already captured the useful structure. Zero graph nodes came from LLM edges. The parser gives you the graph for free.
 
