@@ -20,7 +20,7 @@ from retrieval.hybrid import vector_only, hybrid_retrieve
 
 load_dotenv()
 
-CLAUDE_MODEL = "claude-haiku-4-5-20251001"
+CLAUDE_MODEL = "claude-3-5-haiku-20241022"
 
 
 def judge_results_claude(
