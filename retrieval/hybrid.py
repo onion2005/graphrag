@@ -39,7 +39,7 @@ def _rerank_graph_nodes(query: str, graph_nodes: dict[str, dict]) -> dict[str, d
 
     # Fetch stored embeddings from Chroma
     fetched = collection.get(ids=node_ids, include=["embeddings"])
-    if not fetched["embeddings"]:
+    if fetched["embeddings"] is None or len(fetched["embeddings"]) == 0:
         return graph_nodes
 
     node_embs = np.array(fetched["embeddings"])
