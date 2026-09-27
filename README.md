@@ -34,7 +34,7 @@ Traditional RAG retrieves code by semantic similarity — but misses structural 
 
 - AST graph expansion **more than doubles total recall** (27.4% → 70.3%) — finds symbols embeddings miss entirely
 - Graph is a **pure recall expander**: top-k ranking (Recall@10, NDCG@10) is identical with or without graph — graph nodes rank below vector hits
-- LLM-extracted edges added zero value — CALLS/INHERITS edges from the AST parser did all the work
+- LLM-extracted edges (478 SIMILAR_TO/DEPENDS_ON) added only **+1.3pp recall** and slightly hurt ranking — AST parser edges did all the work
 - Graph without vector entry points is useless — you need both, in sequence
 - Hop-decay scoring (0.8 per hop) prevents distant neighbors from diluting relevance
 

@@ -18,7 +18,7 @@ AST graph expansion **more than doubled total recall** — from 27.4% to 70.3%. 
 
 1. **Graph is a pure recall expander, not a ranker.** It finds relevant symbols that embeddings miss entirely — but those symbols rank below the vector hits. The graph fills in the long tail, not the top of the list. This matters: if your application only looks at top-10 results, graph adds nothing. If it can use 20-30 results (like an agent with tool calls), graph is a 2.6x recall win.
 
-2. **LLM-extracted edges added zero value.** I spent tokens having an LLM classify SIMILAR_TO / DEPENDS_ON relationships between symbols. The AST edges (CALLS, INHERITS, IMPORTS) already captured the useful structure. Zero graph nodes came from LLM edges. The parser gives you the graph for free.
+2. **LLM-extracted edges added near-zero value.** I spent 500 LLM calls extracting SIMILAR_TO / DEPENDS_ON relationships between symbols (478 edges). With those edges loaded, total recall went from 27.4% to… 28.7%. That's +1.3pp. AST edges alone got +43pp. The LLM edges also slightly hurt MRR when combined with AST (0.411 → 0.407) — adding noise, not signal. The parser gives you the graph for free.
 
 3. **Graph without vector is useless.** Pure graph traversal without good seed nodes returns noise. The vector search IS the entry point — you need both, but in a specific order.
 
@@ -30,7 +30,7 @@ AST graph expansion **more than doubled total recall** — from 27.4% to 70.3%. 
 
 **The uncomfortable conclusion:**
 
-For code, the knowledge graph you need is the one your parser already gives you for free. The expensive LLM extraction step that papers recommend? I ran a controlled eval and it didn't move the needle. CALLS and INHERITS edges did all the work.
+For code, the knowledge graph you need is the one your parser already gives you for free. The expensive LLM extraction step that papers recommend? I ran a controlled A/B test — 478 LLM-extracted edges vs 1,328 AST edges — and the LLM edges added +1.3pp recall while slightly hurting ranking. CALLS and INHERITS edges did all the work.
 
 This doesn't mean LLM-extracted edges are useless for all domains — unstructured documents don't have ASTs. But if your corpus has formal structure (code, schemas, APIs, configs), extract the graph from the structure first. Only add LLM edges if the eval shows a gap.
 
