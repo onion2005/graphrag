@@ -226,7 +226,11 @@ def main():
     locust_stats = parse_locust_stats(args.csv_prefix)
 
     print("Fetching vLLM metrics...")
-    vllm_metrics = fetch_vllm_metrics(args.metrics_url)
+    try:
+        vllm_metrics = fetch_vllm_metrics(args.metrics_url)
+    except Exception as e:
+        print(f"  Warning: could not fetch vLLM metrics ({e}), using empty metrics")
+        vllm_metrics = {}
 
     cost = compute_cost(locust_stats, args.duration)
 

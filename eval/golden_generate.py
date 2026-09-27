@@ -142,9 +142,10 @@ def generate_category(
     client: openai.OpenAI,
 ) -> list[dict]:
     """Generate queries for one category."""
-    # Sample symbols to fit context window of smaller models
+    # Sample symbols to fit context window of smaller models (seeded for reproducibility)
     if len(symbols) > MAX_SYMBOLS_IN_PROMPT:
-        sampled = random.sample(symbols, MAX_SYMBOLS_IN_PROMPT)
+        rng = random.Random(42)
+        sampled = rng.sample(symbols, MAX_SYMBOLS_IN_PROMPT)
     else:
         sampled = symbols
     symbol_index_text = format_symbol_index(sampled)

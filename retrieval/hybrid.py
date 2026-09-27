@@ -39,7 +39,7 @@ def _rerank_graph_nodes(query: str, graph_nodes: dict[str, dict]) -> dict[str, d
 
     # Fetch stored embeddings from Chroma
     fetched = collection.get(ids=node_ids, include=["embeddings"])
-    if fetched["embeddings"] is None:
+    if not fetched["embeddings"]:
         return graph_nodes
 
     node_embs = np.array(fetched["embeddings"])
@@ -50,7 +50,7 @@ def _rerank_graph_nodes(query: str, graph_nodes: dict[str, dict]) -> dict[str, d
 
     similarities = (node_embs @ query_emb.T).flatten()
 
-    for nid, sim in zip(node_ids, similarities):
+    for nid, sim in zip(fetched["ids"], similarities):  # use fetched IDs, not original list
         graph_nodes[nid]["score"] = float(sim)
 
     return graph_nodes
@@ -80,7 +80,7 @@ def vector_only(query: str, top_k: int = None) -> list[dict]:
             "type": meta["type"],
             "file": meta["file"],
             "document": doc,
-            "score": 1 - dist,
+            "score": 1 - dist / 2,  # L2 on unit-norm vectors: L2 = 2*(1-cosine), so cosine = 1 - L2/2
             "source": "vector",
         })
     return nodes
@@ -124,22 +124,24 @@ def hybrid_retrieve(
         config.NEO4J_URI, auth=(config.NEO4J_USER, config.NEO4J_PASSWORD)
     )
     graph_nodes = {}
-    with driver.session() as session:
-        records = session.run(cypher, entry_ids=entry_ids, limit=max_graph_nodes)
-        for record in records:
-            nid = record["id"]
-            if nid not in vector_nodes:
-                graph_nodes[nid] = {
-                    "id": nid,
-                    "name": record["name"],
-                    "type": record["type"],
-                    "file": record["file"],
-                    "docstring": record["docstring"],
-                    "score": 0.5,
-                    "source": "graph",
-                    "hops": record["hops"],
-                }
-    driver.close()
+    try:
+        with driver.session() as session:
+            records = session.run(cypher, entry_ids=entry_ids, limit=max_graph_nodes)
+            for record in records:
+                nid = record["id"]
+                if nid not in vector_nodes:
+                    graph_nodes[nid] = {
+                        "id": nid,
+                        "name": record["name"],
+                        "type": record["type"],
+                        "file": record["file"],
+                        "docstring": record["docstring"],
+                        "score": 0.5,
+                        "source": "graph",
+                        "hops": record["hops"],
+                    }
+    finally:
+        driver.close()
 
     # 3. Rerank graph nodes by embedding similarity
     if rerank:

@@ -70,7 +70,7 @@ spec:
                 name: vllm-config
           env:
             - name: VLLM_API_KEY
-              value: "graphrag-local-key-change-me"
+              value: "REPLACE_WITH_YOUR_API_KEY"
             - name: HF_TOKEN
               valueFrom:
                 secretKeyRef:
