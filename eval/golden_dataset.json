@@ -1,0 +1,461 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-09-26T05:15:55.650297+00:00",
+  "generated_by": "Qwen/Qwen2.5-7B-Instruct",
+  "reviewed": false,
+  "queries": [
+    {
+      "query": "What is the relationship between AsyncClient and BaseClient?",
+      "expected_symbols": [
+        {
+          "name": "AsyncClient",
+          "file": "httpx/_client.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "BaseClient",
+          "file": "httpx/_client.py",
+          "type": "class",
+          "relevance": 3
+        }
+      ],
+      "id": "q01",
+      "category": "structural_navigation"
+    },
+    {
+      "query": "How does the DigestAuth class interact with the Auth interface?",
+      "expected_symbols": [
+        {
+          "name": "DigestAuth",
+          "file": "httpx/_auth.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "Auth",
+          "file": "httpx/_auth.py",
+          "type": "class",
+          "relevance": 2
+        }
+      ],
+      "id": "q02",
+      "category": "structural_navigation"
+    },
+    {
+      "query": "How does httpx handle basic authentication?",
+      "expected_symbols": [
+        {
+          "name": "BasicAuth",
+          "file": "httpx/_auth.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "DigestAuth.__init__",
+          "file": "httpx/_auth.py",
+          "type": "function",
+          "relevance": 2
+        }
+      ],
+      "id": "q03",
+      "category": "semantic_similarity"
+    },
+    {
+      "query": "What methods does httpx use to serialize data into a request body?",
+      "expected_symbols": [
+        {
+          "name": "encode_multipart_data",
+          "file": "httpx/_content.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "encode_request",
+          "file": "httpx/_content.py",
+          "type": "function",
+          "relevance": 2
+        }
+      ],
+      "id": "q04",
+      "category": "semantic_similarity"
+    },
+    {
+      "query": "How does httpx manage cookies across requests?",
+      "expected_symbols": [
+        {
+          "name": "Cookies",
+          "file": "httpx/_models.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "Request.__setstate__",
+          "file": "httpx/_models.py",
+          "type": "function",
+          "relevance": 2
+        }
+      ],
+      "id": "q05",
+      "category": "semantic_similarity"
+    },
+    {
+      "query": "What are the different types of timeouts that can be configured in httpx?",
+      "expected_symbols": [
+        {
+          "name": "Timeout",
+          "file": "httpx/_config.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "test_read_timeout",
+          "file": "tests/test_timeouts.py",
+          "type": "function",
+          "relevance": 2
+        }
+      ],
+      "id": "q06",
+      "category": "semantic_similarity"
+    },
+    {
+      "query": "How does httpx handle streaming responses?",
+      "expected_symbols": [
+        {
+          "name": "Response.aiter_text",
+          "file": "httpx/_models.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "Response.iter_lines",
+          "file": "httpx/_models.py",
+          "type": "function",
+          "relevance": 2
+        }
+      ],
+      "id": "q07",
+      "category": "semantic_similarity"
+    },
+    {
+      "query": "How does httpx handle custom exceptions during request processing?",
+      "expected_symbols": [
+        {
+          "name": "HTTPError",
+          "file": "httpx/_exceptions.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "RequestError",
+          "file": "httpx/_exceptions.py",
+          "type": "class",
+          "relevance": 2
+        }
+      ],
+      "id": "q08",
+      "category": "semantic_similarity"
+    },
+    {
+      "query": "How does httpx manage asynchronous client sessions?",
+      "expected_symbols": [
+        {
+          "name": "AsyncClient",
+          "file": "httpx/_client.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "AsyncClient.__aenter__",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "AsyncClient.aclose",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        }
+      ],
+      "id": "q09",
+      "category": "cross_file_dependency"
+    },
+    {
+      "query": "What is the process for handling redirects in httpx?",
+      "expected_symbols": [
+        {
+          "name": "BaseClient._redirect_headers",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "codes.is_redirect",
+          "file": "httpx/_status_codes.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "RequestNotRead",
+          "file": "httpx/_exceptions.py",
+          "type": "class",
+          "relevance": 1
+        }
+      ],
+      "id": "q10",
+      "category": "cross_file_dependency"
+    },
+    {
+      "query": "How does httpx configure timeouts for client requests?",
+      "expected_symbols": [
+        {
+          "name": "Timeout",
+          "file": "httpx/_config.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "BaseClient._set_timeout",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "test_timeout_from_tuple",
+          "file": "tests/test_config.py",
+          "type": "function",
+          "relevance": 1
+        }
+      ],
+      "id": "q11",
+      "category": "cross_file_dependency"
+    },
+    {
+      "query": "What is the mechanism for building request headers in httpx?",
+      "expected_symbols": [
+        {
+          "name": "Headers",
+          "file": "httpx/_models.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "BaseClient._build_request_auth",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        }
+      ],
+      "id": "q12",
+      "category": "cross_file_dependency"
+    },
+    {
+      "query": "How does httpx handle authentication for requests?",
+      "expected_symbols": [
+        {
+          "name": "Auth.auth_flow",
+          "file": "httpx/_auth.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "FunctionAuth",
+          "file": "httpx/_auth.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "NetRCAuth",
+          "file": "httpx/_auth.py",
+          "type": "class",
+          "relevance": 2
+        }
+      ],
+      "id": "q13",
+      "category": "cross_file_dependency"
+    },
+    {
+      "query": "What is the flow for handling multipart form data in httpx?",
+      "expected_symbols": [
+        {
+          "name": "MultipartStream",
+          "file": "httpx/_multipart.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "DataField",
+          "file": "httpx/_multipart.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "FileField",
+          "file": "httpx/_multipart.py",
+          "type": "class",
+          "relevance": 2
+        }
+      ],
+      "id": "q14",
+      "category": "cross_file_dependency"
+    },
+    {
+      "query": "How does httpx manage SSL/TLS configurations for client connections?",
+      "expected_symbols": [
+        {
+          "name": "Proxy",
+          "file": "httpx/_config.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "validate_json",
+          "file": "httpx/_main.py",
+          "type": "function",
+          "relevance": 2
+        },
+        {
+          "name": "test_load_ssl_config_verify_directory",
+          "file": "tests/test_config.py",
+          "type": "function",
+          "relevance": 1
+        }
+      ],
+      "id": "q15",
+      "category": "cross_file_dependency"
+    },
+    {
+      "query": "How does httpx handle authentication with custom headers?",
+      "expected_symbols": [
+        {
+          "name": "Auth",
+          "file": "httpx/_auth.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "BasicAuth",
+          "file": "httpx/_auth.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "FunctionAuth",
+          "file": "httpx/_auth.py",
+          "type": "class",
+          "relevance": 2
+        }
+      ],
+      "id": "q16",
+      "category": "api_surface"
+    },
+    {
+      "query": "What are the steps to send a multipart request using httpx?",
+      "expected_symbols": [
+        {
+          "name": "MultipartStream",
+          "file": "httpx/_multipart.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "DataField",
+          "file": "httpx/_multipart.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "MultipartStream._iter_fields",
+          "file": "httpx/_multipart.py",
+          "type": "function",
+          "relevance": 2
+        }
+      ],
+      "id": "q17",
+      "category": "api_surface"
+    },
+    {
+      "query": "How do I configure timeouts in httpx clients?",
+      "expected_symbols": [
+        {
+          "name": "Timeout",
+          "file": "httpx/_config.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "BaseClient._set_timeout",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        }
+      ],
+      "id": "q18",
+      "category": "api_surface"
+    },
+    {
+      "query": "What exceptions can occur when handling responses in httpx?",
+      "expected_symbols": [
+        {
+          "name": "HTTPStatusError",
+          "file": "httpx/_exceptions.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "RequestNotRead",
+          "file": "httpx/_exceptions.py",
+          "type": "class",
+          "relevance": 2
+        },
+        {
+          "name": "ResponseNotRead",
+          "file": "httpx/_exceptions.py",
+          "type": "class",
+          "relevance": 2
+        }
+      ],
+      "id": "q19",
+      "category": "api_surface"
+    },
+    {
+      "query": "What is the process for handling redirects in httpx clients?",
+      "expected_symbols": [
+        {
+          "name": "BaseClient._redirect_method",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 3
+        },
+        {
+          "name": "_is_https_redirect",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        }
+      ],
+      "id": "q20",
+      "category": "api_surface"
+    },
+    {
+      "query": "How do I set and manage cookies in httpx requests?",
+      "expected_symbols": [
+        {
+          "name": "Cookies",
+          "file": "httpx/_models.py",
+          "type": "class",
+          "relevance": 3
+        },
+        {
+          "name": "BaseClient.headers",
+          "file": "httpx/_client.py",
+          "type": "function",
+          "relevance": 2
+        }
+      ],
+      "id": "q21",
+      "category": "api_surface"
+    }
+  ]
+}

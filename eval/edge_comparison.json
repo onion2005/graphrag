@@ -1,0 +1,297 @@
+{
+  "summary": {
+    "baseline_edge_count": 1268,
+    "llm_edge_count": 210,
+    "baseline_unique_pairs": 1268,
+    "llm_unique_pairs": 210,
+    "overlap_pairs": 27,
+    "baseline_only_pairs": 1241,
+    "llm_only_pairs": 183,
+    "baseline_node_coverage": 1185,
+    "llm_node_coverage": 44
+  },
+  "edge_types": {
+    "baseline": {
+      "CONTAINS": 1132,
+      "CALLS": 136
+    },
+    "llm": {
+      "SIMILAR_TO": 110,
+      "CALLS": 35,
+      "USES_TYPE": 17,
+      "INHERITS": 32,
+      "DEPENDS_ON": 16
+    },
+    "llm_only_by_type": {
+      "SIMILAR_TO": 105,
+      "USES_TYPE": 13,
+      "INHERITS": 32,
+      "DEPENDS_ON": 13,
+      "CALLS": 20
+    }
+  },
+  "llm_only_examples": [
+    {
+      "source_name": "FunctionAuth.__init__",
+      "target_name": "NetRCAuth",
+      "type": "SIMILAR_TO",
+      "confidence": 0.7,
+      "reason": "Both FunctionAuth.__init__ and NetRCAuth are authentication-related classes that implement custom auth logic. FunctionAuth accepts a callable to define auth behavior, while NetRCAuth uses netrc file lookup. They serve similar purposes in an authentication framework but implement different strategies."
+    },
+    {
+      "source_name": "BasicAuth.__init__",
+      "target_name": "NetRCAuth.__init__",
+      "type": "SIMILAR_TO",
+      "confidence": 0.85,
+      "reason": "Both are __init__ methods of authentication classes that initialize authentication credentials/info. They serve similar purposes in their respective authentication implementations (BasicAuth and NetRCAuth), following a parallel design pattern for credential initialization."
+    },
+    {
+      "source_name": "DigestAuth._get_client_nonce",
+      "target_name": "_DigestAuthChallenge",
+      "type": "USES_TYPE",
+      "confidence": 0.85,
+      "reason": "The _get_client_nonce method is part of the DigestAuth class which would use _DigestAuthChallenge to store digest authentication challenge parameters including the nonce that this method processes. The nonce parameter in _get_client_nonce comes from _DigestAuthChallenge.nonce field."
+    },
+    {
+      "source_name": "BasicAuth._build_auth_header",
+      "target_name": "Auth",
+      "type": "INHERITS",
+      "confidence": 0.95,
+      "reason": "BasicAuth._build_auth_header is a method of the BasicAuth class, which is a subclass of Auth. The method belongs to a class that inherits from the Auth base class described in Symbol A."
+    },
+    {
+      "source_name": "FunctionAuth",
+      "target_name": "Auth",
+      "type": "INHERITS",
+      "confidence": 0.99,
+      "reason": "FunctionAuth is a subclass of Auth, as indicated by the class definition 'class FunctionAuth(Auth):'. FunctionAuth inherits from Auth and overrides the auth_flow() method as documented in Auth's docstring."
+    },
+    {
+      "source_name": "BasicAuth",
+      "target_name": "Auth",
+      "type": "INHERITS",
+      "confidence": 0.99,
+      "reason": "BasicAuth is a subclass of Auth, as indicated by 'class BasicAuth(Auth):' in the source code. BasicAuth inherits from the Auth base class and overrides the auth_flow() method as documented in Auth's docstring."
+    },
+    {
+      "source_name": "BasicAuth",
+      "target_name": "Auth.auth_flow",
+      "type": "INHERITS",
+      "confidence": 0.95,
+      "reason": "BasicAuth is a class that inherits from Auth. The auth_flow method in BasicAuth overrides the auth_flow method defined in the Auth class (Symbol A), implementing the abstract or base authentication flow pattern."
+    },
+    {
+      "source_name": "BasicAuth.__init__",
+      "target_name": "DigestAuth",
+      "type": "SIMILAR_TO",
+      "confidence": 0.85,
+      "reason": "Both BasicAuth.__init__ and DigestAuth.__init__ are constructor methods that accept identical parameters (username and password as str or bytes) and serve the same purpose of initializing authentication objects. They follow the same pattern in an authentication class hierarchy."
+    },
+    {
+      "source_name": "DigestAuth._build_auth_header",
+      "target_name": "DigestAuth._get_client_nonce",
+      "type": "SIMILAR_TO",
+      "confidence": 0.7,
+      "reason": "Both methods are part of the DigestAuth class and implement cryptographic digest operations. _build_auth_header constructs authentication credentials using hash functions, while _get_client_nonce generates a nonce value using SHA1 hashing. They serve complementary purposes in the digest authentication flow and both involve cryptographic hashing operations."
+    },
+    {
+      "source_name": "BasicAuth.__init__",
+      "target_name": "NetRCAuth.auth_flow",
+      "type": "SIMILAR_TO",
+      "confidence": 0.75,
+      "reason": "Both functions deal with building authorization headers for authentication. BasicAuth.__init__ builds an auth header in its initialization, while NetRCAuth.auth_flow builds a basic auth header using the same _build_auth_header method. They serve similar purposes in the authentication workflow."
+    },
+    {
+      "source_name": "FunctionAuth.auth_flow",
+      "target_name": "NetRCAuth.auth_flow",
+      "type": "SIMILAR_TO",
+      "confidence": 0.95,
+      "reason": "Both FunctionAuth.auth_flow and NetRCAuth.auth_flow are methods with identical signatures that implement the same protocol/interface pattern. They both yield Request objects and have the same return type annotation (typing.Generator[Request, Response, None]), suggesting they are implementations of a common authentication flow interface."
+    },
+    {
+      "source_name": "BasicAuth.__init__",
+      "target_name": "DigestAuth.__init__",
+      "type": "SIMILAR_TO",
+      "confidence": 0.85,
+      "reason": "Both are __init__ methods of authentication handler classes with identical signatures (username and password parameters). They serve similar purposes in implementing different authentication schemes (Basic vs Digest), following the same initialization pattern for auth-related classes."
+    },
+    {
+      "source_name": "NetRCAuth",
+      "target_name": "DigestAuth.__init__",
+      "type": "SIMILAR_TO",
+      "confidence": 0.7,
+      "reason": "Both NetRCAuth and DigestAuth.__init__ are authentication-related classes/methods that handle credential management. NetRCAuth is an Auth subclass that manages netrc-based credentials, while DigestAuth.__init__ initializes digest authentication with username/password. They serve similar purposes in an authentication framework but have different implementations and credential sources."
+    },
+    {
+      "source_name": "NetRCAuth",
+      "target_name": "Auth.sync_auth_flow",
+      "type": "INHERITS",
+      "confidence": 0.95,
+      "reason": "NetRCAuth is a class that inherits from Auth. The class definition explicitly shows 'class NetRCAuth(Auth):' indicating that NetRCAuth is a subclass of Auth. Symbol A (Auth.sync_auth_flow) is a method defined in the parent Auth class, which NetRCAuth inherits and can override or utilize."
+    },
+    {
+      "source_name": "DigestAuth._build_auth_header",
+      "target_name": "_DigestAuthChallenge",
+      "type": "USES_TYPE",
+      "confidence": 0.95,
+      "reason": "Function _build_auth_header has a parameter 'challenge' with type annotation _DigestAuthChallenge, and accesses its attributes (challenge.algorithm, challenge.realm) within the function body."
+    },
+    {
+      "source_name": "FunctionAuth.__init__",
+      "target_name": "BasicAuth",
+      "type": "SIMILAR_TO",
+      "confidence": 0.75,
+      "reason": "Both FunctionAuth.__init__ and BasicAuth are authentication-related classes/methods that implement auth flows. FunctionAuth.__init__ stores a callable that transforms requests, while BasicAuth.__init__ stores an auth header. Both appear to be part of an authentication framework with similar purposes but different implementations."
+    },
+    {
+      "source_name": "FunctionAuth.auth_flow",
+      "target_name": "BasicAuth.auth_flow",
+      "type": "SIMILAR_TO",
+      "confidence": 0.85,
+      "reason": "Both are `auth_flow` methods with identical signatures that implement authentication flow patterns. They both yield a Request object and serve the same purpose in their respective classes (FunctionAuth and BasicAuth), suggesting they implement a common interface or pattern."
+    },
+    {
+      "source_name": "FunctionAuth.auth_flow",
+      "target_name": "DigestAuth.auth_flow",
+      "type": "SIMILAR_TO",
+      "confidence": 0.85,
+      "reason": "Both are auth_flow methods with identical signatures that implement authentication flow patterns. FunctionAuth.auth_flow appears to be a simple base/default implementation, while DigestAuth.auth_flow is a more complex implementation handling digest authentication challenges. They serve similar purposes in their respective classes."
+    },
+    {
+      "source_name": "BasicAuth.auth_flow",
+      "target_name": "NetRCAuth",
+      "type": "SIMILAR_TO",
+      "confidence": 0.85,
+      "reason": "Both BasicAuth.auth_flow and NetRCAuth.auth_flow are methods that implement the same interface method from the Auth base class. They serve the same purpose - implementing authentication flow by yielding a modified request. NetRCAuth appears to be a specialized alternative to BasicAuth for netrc-based credential lookup."
+    },
+    {
+      "source_name": "BasicAuth.auth_flow",
+      "target_name": "BasicAuth.__init__",
+      "type": "DEPENDS_ON",
+      "confidence": 0.95,
+      "reason": "auth_flow depends on _auth_header which is initialized in __init__. The __init__ method sets up the _auth_header instance variable that auth_flow uses in its implementation."
+    }
+  ],
+  "overlap_type_comparison": [
+    {
+      "source_name": "DigestAuth",
+      "target_name": "DigestAuth._resolve_qop",
+      "baseline_type": "CONTAINS",
+      "llm_type": "USES_TYPE"
+    },
+    {
+      "source_name": "DigestAuth",
+      "target_name": "DigestAuth._get_header_value",
+      "baseline_type": "CONTAINS",
+      "llm_type": "CALLS"
+    },
+    {
+      "source_name": "DigestAuth",
+      "target_name": "DigestAuth._build_auth_header",
+      "baseline_type": "CONTAINS",
+      "llm_type": "USES_TYPE"
+    },
+    {
+      "source_name": "get",
+      "target_name": "request",
+      "baseline_type": "CALLS",
+      "llm_type": "CALLS"
+    },
+    {
+      "source_name": "_is_https_redirect",
+      "target_name": "_port_or_default",
+      "baseline_type": "CALLS",
+      "llm_type": "CALLS"
+    },
+    {
+      "source_name": "Auth",
+      "target_name": "Auth.auth_flow",
+      "baseline_type": "CONTAINS",
+      "llm_type": "USES_TYPE"
+    },
+    {
+      "source_name": "_same_origin",
+      "target_name": "_port_or_default",
+      "baseline_type": "CALLS",
+      "llm_type": "CALLS"
+    },
+    {
+      "source_name": "put",
+      "target_name": "request",
+      "baseline_type": "CALLS",
+      "llm_type": "SIMILAR_TO"
+    },
+    {
+      "source_name": "DigestAuth",
+      "target_name": "DigestAuth._parse_challenge",
+      "baseline_type": "CONTAINS",
+      "llm_type": "USES_TYPE"
+    },
+    {
+      "source_name": "options",
+      "target_name": "request",
+      "baseline_type": "CALLS",
+      "llm_type": "SIMILAR_TO"
+    },
+    {
+      "source_name": "Auth",
+      "target_name": "Auth.async_auth_flow",
+      "baseline_type": "CONTAINS",
+      "llm_type": "CALLS"
+    },
+    {
+      "source_name": "BaseClient._redirect_headers",
+      "target_name": "_is_https_redirect",
+      "baseline_type": "CALLS",
+      "llm_type": "CALLS"
+    },
+    {
+      "source_name": "delete",
+      "target_name": "request",
+      "baseline_type": "CALLS",
+      "llm_type": "CALLS"
+    },
+    {
+      "source_name": "NetRCAuth",
+      "target_name": "NetRCAuth.auth_flow",
+      "baseline_type": "CONTAINS",
+      "llm_type": "CALLS"
+    },
+    {
+      "source_name": "DigestAuth",
+      "target_name": "DigestAuth.auth_flow",
+      "baseline_type": "CONTAINS",
+      "llm_type": "DEPENDS_ON"
+    },
+    {
+      "source_name": "DigestAuth",
+      "target_name": "DigestAuth.__init__",
+      "baseline_type": "CONTAINS",
+      "llm_type": "CALLS"
+    },
+    {
+      "source_name": "patch",
+      "target_name": "request",
+      "baseline_type": "CALLS",
+      "llm_type": "SIMILAR_TO"
+    },
+    {
+      "source_name": "FunctionAuth",
+      "target_name": "FunctionAuth.__init__",
+      "baseline_type": "CONTAINS",
+      "llm_type": "CALLS"
+    },
+    {
+      "source_name": "DigestAuth",
+      "target_name": "DigestAuth._get_client_nonce",
+      "baseline_type": "CONTAINS",
+      "llm_type": "CALLS"
+    },
+    {
+      "source_name": "BasicAuth",
+      "target_name": "BasicAuth._build_auth_header",
+      "baseline_type": "CONTAINS",
+      "llm_type": "CALLS"
+    }
+  ]
+}

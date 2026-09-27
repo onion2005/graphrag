@@ -1,0 +1,136 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: llm-serving
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vllm-config
+  namespace: llm-serving
+data:
+  MODEL_ID: "Qwen/Qwen2.5-7B-Instruct"
+  MAX_MODEL_LEN: "8192"
+  GPU_MEMORY_UTILIZATION: "0.90"
+  DTYPE: "auto"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: hf-token
+  namespace: llm-serving
+type: Opaque
+stringData:
+  token: "REPLACE_WITH_YOUR_HF_TOKEN"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm
+  namespace: llm-serving
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vllm
+  template:
+    metadata:
+      labels:
+        app: vllm
+    spec:
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Equal
+          value: "true"
+          effect: NoSchedule
+      containers:
+        - name: vllm
+          image: vllm/vllm-openai:v0.8.4
+          args:
+            - "--model"
+            - "$(MODEL_ID)"
+            - "--max-model-len"
+            - "$(MAX_MODEL_LEN)"
+            - "--gpu-memory-utilization"
+            - "$(GPU_MEMORY_UTILIZATION)"
+            - "--dtype"
+            - "$(DTYPE)"
+            - "--host"
+            - "0.0.0.0"
+            - "--port"
+            - "8000"
+            - "--api-key"
+            - "$(VLLM_API_KEY)"
+            - "--trust-remote-code"
+            - "--enable-auto-tool-choice"
+            - "--tool-call-parser"
+            - "hermes"
+          envFrom:
+            - configMapRef:
+                name: vllm-config
+          env:
+            - name: VLLM_API_KEY
+              value: "graphrag-local-key-change-me"
+            - name: HF_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hf-token
+                  key: token
+            - name: HUGGING_FACE_HUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hf-token
+                  key: token
+          ports:
+            - containerPort: 8000
+              name: http
+          resources:
+            requests:
+              cpu: "2"
+              memory: "8Gi"
+              nvidia.com/gpu: "1"
+            limits:
+              cpu: "4"
+              memory: "16Gi"
+              nvidia.com/gpu: "1"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 300
+            periodSeconds: 10
+            failureThreshold: 30
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 600
+            periodSeconds: 30
+          volumeMounts:
+            - name: hf-cache
+              mountPath: /root/.cache/huggingface
+            - name: dshm
+              mountPath: /dev/shm
+      volumes:
+        - name: hf-cache
+          emptyDir:
+            sizeLimit: 50Gi
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 8Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vllm-svc
+  namespace: llm-serving
+spec:
+  type: ClusterIP
+  selector:
+    app: vllm
+  ports:
+    - port: 80
+      targetPort: 8000
+      protocol: TCP
+      name: http
