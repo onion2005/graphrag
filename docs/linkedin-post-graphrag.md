@@ -14,13 +14,15 @@ So I built a GraphRAG system: vector search finds the entry points, then graph e
 
 **The results that changed my assumptions:**
 
-Vector + AST graph found **77% more relevant symbols** than vector alone (10.8 vs 6.1 per query). But here's what I didn't expect:
+AST graph expansion nearly **tripled total recall** — from 19.8% to 54.8%. But it didn't improve top-k ranking at all. Recall@5, Recall@10, NDCG@10 were identical with or without the graph. Here's what that means:
 
-1. **LLM-extracted edges added zero value over AST edges.** I spent tokens having an LLM classify SIMILAR_TO / DEPENDS_ON relationships between symbols. The AST edges (CALLS, INHERITS, IMPORTS) already captured the useful structure. The semantic edges were either redundant or noise. This surprised me — I expected the LLM to find patterns the parser couldn't.
+1. **Graph is a pure recall expander, not a ranker.** It finds relevant symbols that embeddings miss entirely — but those symbols rank below the vector hits. The graph fills in the long tail, not the top of the list. This matters: if your application only looks at top-10 results, graph adds nothing. If it can use 20-30 results (like an agent with tool calls), graph is a significant win.
 
-2. **Graph without vector is useless.** Pure graph traversal without good seed nodes returns noise. The vector search IS the entry point — you need both, but in a specific order.
+2. **LLM-extracted edges added zero value.** I spent tokens having an LLM classify SIMILAR_TO / DEPENDS_ON relationships between symbols. The AST edges (CALLS, INHERITS, IMPORTS) already captured the useful structure. Zero graph nodes came from LLM edges. The parser gives you the graph for free.
 
-3. **The real win is cross-file discovery.** Authentication in httpx spans `_auth.py`, `_client.py`, and `_config.py`. Vector search finds one file. The graph finds all three. This is the problem GraphRAG actually solves for code: following dependencies across file boundaries.
+3. **Graph without vector is useless.** Pure graph traversal without good seed nodes returns noise. The vector search IS the entry point — you need both, but in a specific order.
+
+4. **The real win is cross-file discovery.** Authentication in httpx spans `_auth.py`, `_client.py`, and `_config.py`. Vector search finds one file. The graph finds all three. This is the problem GraphRAG actually solves for code: following dependencies across file boundaries.
 
 ![Ranking Quality by Retrieval Mode](../eval/ranking_quality.png)
 

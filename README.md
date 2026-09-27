@@ -32,8 +32,9 @@ Traditional RAG retrieves code by semantic similarity — but misses structural 
 
 ### GraphRAG Evaluation
 
-- Vector + AST graph finds **77% more relevant symbols** than vector alone (10.8 vs 6.1 per query)
-- LLM-extracted edges added zero value over AST edges — CALLS/INHERITS did all the work
+- AST graph expansion nearly **triples total recall** (19.8% → 54.8%) — finds symbols embeddings miss entirely
+- Graph is a **pure recall expander**: top-k ranking (Recall@10, NDCG@10) is identical with or without graph — graph nodes rank below vector hits
+- LLM-extracted edges added zero value — CALLS/INHERITS edges from the AST parser did all the work
 - Graph without vector entry points is useless — you need both, in sequence
 - Hop-decay scoring (0.8 per hop) prevents distant neighbors from diluting relevance
 
