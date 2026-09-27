@@ -4,7 +4,7 @@ from pathlib import Path
 from ingestion.id_registry import make_node_id
 
 
-def parse_file(file_path: Path, repo_root: Path) -> tuple[list[dict], list[dict]]:
+def parse_file(file_path: Path, repo_root: Path, repo_name: str | None = None) -> tuple[list[dict], list[dict]]:
     """Parse a single Python file into nodes and baseline edges."""
     source = file_path.read_text(encoding="utf-8")
     tree = ast.parse(source, filename=str(file_path))
@@ -13,33 +13,38 @@ def parse_file(file_path: Path, repo_root: Path) -> tuple[list[dict], list[dict]
     edges = []
     rel_path = file_path.relative_to(repo_root).as_posix()
     module_name = rel_path.replace("/", ".").removesuffix(".py")
-    module_id = make_node_id(rel_path, module_name, "module")
+    module_id = make_node_id(rel_path, module_name, "module", repo_name=repo_name)
     module_docstring = ast.get_docstring(tree) or ""
+
+    # Prefix file path with repo name for multi-repo disambiguation
+    display_path = f"{repo_name}/{rel_path}" if repo_name else rel_path
 
     nodes.append({
         "id": module_id,
-        "file": rel_path,
+        "file": display_path,
         "name": module_name,
         "type": "module",
         "source_code": "",
         "docstring": module_docstring,
         "lineno": 1,
+        "repo": repo_name or "",
     })
 
     def _add_symbol(node, symbol_type, parent_id, class_name=None):
         qualified = f"{class_name}.{node.name}" if class_name else node.name
-        node_id = make_node_id(rel_path, qualified, symbol_type)
+        node_id = make_node_id(rel_path, qualified, symbol_type, repo_name=repo_name)
         source_code = ast.get_source_segment(source, node) or ""
         docstring = ast.get_docstring(node) or ""
 
         nodes.append({
             "id": node_id,
-            "file": rel_path,
+            "file": display_path,
             "name": qualified,
             "type": symbol_type,
             "source_code": source_code,
             "docstring": docstring,
             "lineno": node.lineno,
+            "repo": repo_name or "",
         })
 
         # CONTAINS: parent → this symbol
@@ -55,7 +60,7 @@ def parse_file(file_path: Path, repo_root: Path) -> tuple[list[dict], list[dict]
             if isinstance(child, ast.Call):
                 callee_name = _resolve_call_name(child)
                 if callee_name is not None:
-                    callee_id = make_node_id(rel_path, callee_name, "function")
+                    callee_id = make_node_id(rel_path, callee_name, "function", repo_name=repo_name)
                     edges.append({
                         "source": node_id,
                         "target": callee_id,
@@ -72,7 +77,7 @@ def parse_file(file_path: Path, repo_root: Path) -> tuple[list[dict], list[dict]
 
             # USES_TYPE: function → type annotations
             for ann_name in _extract_type_names(node):
-                ann_id = make_node_id(rel_path, ann_name, "class")
+                ann_id = make_node_id(rel_path, ann_name, "class", repo_name=repo_name)
                 edges.append({
                     "source": func_id,
                     "target": ann_id,
@@ -86,7 +91,7 @@ def parse_file(file_path: Path, repo_root: Path) -> tuple[list[dict], list[dict]
             for base in node.bases:
                 base_name = _resolve_name(base)
                 if base_name:
-                    base_id = make_node_id(rel_path, base_name, "class")
+                    base_id = make_node_id(rel_path, base_name, "class", repo_name=repo_name)
                     edges.append({
                         "source": class_id,
                         "target": base_id,
@@ -101,7 +106,7 @@ def parse_file(file_path: Path, repo_root: Path) -> tuple[list[dict], list[dict]
 
                     # USES_TYPE: method → type annotations
                     for ann_name in _extract_type_names(child):
-                        ann_id = make_node_id(rel_path, ann_name, "class")
+                        ann_id = make_node_id(rel_path, ann_name, "class", repo_name=repo_name)
                         edges.append({
                             "source": method_id,
                             "target": ann_id,
@@ -114,7 +119,7 @@ def parse_file(file_path: Path, repo_root: Path) -> tuple[list[dict], list[dict]
         if isinstance(node, ast.Import):
             for alias in node.names:
                 name = alias.asname or alias.name.split(".")[-1]
-                target_id = make_node_id(rel_path, name, "import")
+                target_id = make_node_id(rel_path, name, "import", repo_name=repo_name)
                 edges.append({
                     "source": module_id,
                     "target": target_id,
@@ -126,7 +131,7 @@ def parse_file(file_path: Path, repo_root: Path) -> tuple[list[dict], list[dict]
             module = node.module or ""
             for alias in node.names:
                 name = alias.asname or alias.name
-                target_id = make_node_id(rel_path, name, "import")
+                target_id = make_node_id(rel_path, name, "import", repo_name=repo_name)
                 edges.append({
                     "source": module_id,
                     "target": target_id,
@@ -174,13 +179,13 @@ def _resolve_call_name(call_node: ast.Call) -> str | None:
     return None
 
 
-def parse_repo(repo_root: Path) -> tuple[list[dict], list[dict]]:
+def parse_repo(repo_root: Path, repo_name: str | None = None) -> tuple[list[dict], list[dict]]:
     """Walk a repo and parse all Python files."""
     all_nodes = []
     all_edges = []
     for py_file in sorted(repo_root.rglob("*.py")):
         try:
-            nodes, edges = parse_file(py_file, repo_root)
+            nodes, edges = parse_file(py_file, repo_root, repo_name=repo_name)
             all_nodes.extend(nodes)
             all_edges.extend(edges)
         except SyntaxError:

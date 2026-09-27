@@ -1,0 +1,145 @@
+{
+  "version": "1.0",
+  "description": "Cross-repo golden dataset for testing LLM edge value across httpx, requests, urllib3",
+  "queries": [
+    {
+      "id": "xr01",
+      "query": "How do httpx and requests implement basic HTTP authentication?",
+      "category": "concept_mapping",
+      "expected_symbols": [
+        {"name": "BasicAuth", "file": "httpx/httpx/_auth.py", "type": "class", "repo": "httpx", "relevance": 3},
+        {"name": "Auth", "file": "httpx/httpx/_auth.py", "type": "class", "repo": "httpx", "relevance": 2},
+        {"name": "HTTPBasicAuth", "file": "requests/requests/auth.py", "type": "class", "repo": "requests", "relevance": 3},
+        {"name": "AuthBase", "file": "requests/requests/auth.py", "type": "class", "repo": "requests", "relevance": 2},
+        {"name": "_basic_auth_str", "file": "requests/requests/auth.py", "type": "function", "repo": "requests", "relevance": 2}
+      ]
+    },
+    {
+      "id": "xr02",
+      "query": "How do different Python HTTP libraries handle digest authentication?",
+      "category": "concept_mapping",
+      "expected_symbols": [
+        {"name": "DigestAuth", "file": "httpx/httpx/_auth.py", "type": "class", "repo": "httpx", "relevance": 3},
+        {"name": "HTTPDigestAuth", "file": "requests/requests/auth.py", "type": "class", "repo": "requests", "relevance": 3}
+      ]
+    },
+    {
+      "id": "xr03",
+      "query": "How do httpx, requests, and urllib3 handle HTTP timeouts?",
+      "category": "concept_mapping",
+      "expected_symbols": [
+        {"name": "Timeout", "file": "httpx/httpx/_config.py", "type": "class", "repo": "httpx", "relevance": 3},
+        {"name": "BaseClient._set_timeout", "file": "httpx/httpx/_client.py", "type": "function", "repo": "httpx", "relevance": 2},
+        {"name": "Timeout", "file": "requests/requests/exceptions.py", "type": "class", "repo": "requests", "relevance": 2},
+        {"name": "ConnectTimeout", "file": "requests/requests/exceptions.py", "type": "class", "repo": "requests", "relevance": 2},
+        {"name": "Timeout", "file": "urllib3/urllib3/util/timeout.py", "type": "class", "repo": "urllib3", "relevance": 3}
+      ]
+    },
+    {
+      "id": "xr04",
+      "query": "How do requests and urllib3 manage connection pooling?",
+      "category": "dependency_chain",
+      "expected_symbols": [
+        {"name": "HTTPAdapter", "file": "requests/requests/adapters.py", "type": "class", "repo": "requests", "relevance": 3},
+        {"name": "Session", "file": "requests/requests/sessions.py", "type": "class", "repo": "requests", "relevance": 2},
+        {"name": "HTTPConnectionPool", "file": "urllib3/urllib3/connectionpool.py", "type": "class", "repo": "urllib3", "relevance": 3},
+        {"name": "PoolManager", "file": "urllib3/urllib3/poolmanager.py", "type": "class", "repo": "urllib3", "relevance": 3},
+        {"name": "ConnectionPool", "file": "urllib3/urllib3/connectionpool.py", "type": "class", "repo": "urllib3", "relevance": 2}
+      ]
+    },
+    {
+      "id": "xr05",
+      "query": "How do httpx and requests structure their HTTP response objects?",
+      "category": "concept_mapping",
+      "expected_symbols": [
+        {"name": "Response", "file": "httpx/httpx/_models.py", "type": "class", "repo": "httpx", "relevance": 3},
+        {"name": "Response", "file": "requests/requests/models.py", "type": "class", "repo": "requests", "relevance": 3},
+        {"name": "HTTPResponse", "file": "urllib3/urllib3/response.py", "type": "class", "repo": "urllib3", "relevance": 2}
+      ]
+    },
+    {
+      "id": "xr06",
+      "query": "How do httpx and requests handle proxy configuration?",
+      "category": "concept_mapping",
+      "expected_symbols": [
+        {"name": "Proxy", "file": "httpx/httpx/_config.py", "type": "class", "repo": "httpx", "relevance": 3},
+        {"name": "Client._init_proxy_transport", "file": "httpx/httpx/_client.py", "type": "function", "repo": "httpx", "relevance": 2},
+        {"name": "ProxyManager", "file": "urllib3/urllib3/poolmanager.py", "type": "class", "repo": "urllib3", "relevance": 3},
+        {"name": "ProxyConfig", "file": "urllib3/urllib3/_base_connection.py", "type": "class", "repo": "urllib3", "relevance": 2},
+        {"name": "select_proxy", "file": "requests/requests/utils.py", "type": "function", "repo": "requests", "relevance": 2}
+      ]
+    },
+    {
+      "id": "xr07",
+      "query": "How do these HTTP libraries decode compressed response content (gzip, deflate)?",
+      "category": "implementation_alternative",
+      "expected_symbols": [
+        {"name": "GZipDecoder", "file": "httpx/httpx/_decoders.py", "type": "class", "repo": "httpx", "relevance": 3},
+        {"name": "DeflateDecoder", "file": "httpx/httpx/_decoders.py", "type": "class", "repo": "httpx", "relevance": 2},
+        {"name": "ContentDecoder", "file": "httpx/httpx/_decoders.py", "type": "class", "repo": "httpx", "relevance": 2},
+        {"name": "GzipDecoder", "file": "urllib3/urllib3/response.py", "type": "class", "repo": "urllib3", "relevance": 3},
+        {"name": "DeflateDecoder", "file": "urllib3/urllib3/response.py", "type": "class", "repo": "urllib3", "relevance": 2},
+        {"name": "ContentDecoder", "file": "urllib3/urllib3/response.py", "type": "class", "repo": "urllib3", "relevance": 2}
+      ]
+    },
+    {
+      "id": "xr08",
+      "query": "How do httpx and requests prepare and send HTTP requests?",
+      "category": "concept_mapping",
+      "expected_symbols": [
+        {"name": "Request", "file": "httpx/httpx/_models.py", "type": "class", "repo": "httpx", "relevance": 3},
+        {"name": "BaseClient.build_request", "file": "httpx/httpx/_client.py", "type": "function", "repo": "httpx", "relevance": 2},
+        {"name": "PreparedRequest", "file": "requests/requests/models.py", "type": "class", "repo": "requests", "relevance": 3},
+        {"name": "Request", "file": "requests/requests/models.py", "type": "class", "repo": "requests", "relevance": 2},
+        {"name": "request", "file": "requests/requests/api.py", "type": "function", "repo": "requests", "relevance": 2}
+      ]
+    },
+    {
+      "id": "xr09",
+      "query": "How do httpx and urllib3 handle SSL/TLS connections?",
+      "category": "implementation_alternative",
+      "expected_symbols": [
+        {"name": "HTTPSConnection", "file": "urllib3/urllib3/connection.py", "type": "class", "repo": "urllib3", "relevance": 3},
+        {"name": "create_urllib3_context", "file": "urllib3/urllib3/util/ssl_.py", "type": "function", "repo": "urllib3", "relevance": 2},
+        {"name": "ssl_wrap_socket", "file": "urllib3/urllib3/util/ssl_.py", "type": "function", "repo": "urllib3", "relevance": 2},
+        {"name": "SSLTransport", "file": "urllib3/urllib3/util/ssltransport.py", "type": "class", "repo": "urllib3", "relevance": 2},
+        {"name": "HTTPSConnectionPool", "file": "urllib3/urllib3/connectionpool.py", "type": "class", "repo": "urllib3", "relevance": 2}
+      ]
+    },
+    {
+      "id": "xr10",
+      "query": "How do httpx and urllib3 handle retry logic?",
+      "category": "implementation_alternative",
+      "expected_symbols": [
+        {"name": "Retry", "file": "urllib3/urllib3/util/retry.py", "type": "class", "repo": "urllib3", "relevance": 3},
+        {"name": "RequestHistory", "file": "urllib3/urllib3/util/retry.py", "type": "class", "repo": "urllib3", "relevance": 2},
+        {"name": "MaxRetryError", "file": "urllib3/urllib3/exceptions.py", "type": "class", "repo": "urllib3", "relevance": 2},
+        {"name": "HTTPAdapter", "file": "requests/requests/adapters.py", "type": "class", "repo": "requests", "relevance": 2}
+      ]
+    },
+    {
+      "id": "xr11",
+      "query": "How do httpx and requests handle cookies across requests?",
+      "category": "concept_mapping",
+      "expected_symbols": [
+        {"name": "Cookies", "file": "httpx/httpx/_models.py", "type": "class", "repo": "httpx", "relevance": 3},
+        {"name": "BaseClient._merge_cookies", "file": "httpx/httpx/_client.py", "type": "function", "repo": "httpx", "relevance": 2},
+        {"name": "RequestsCookieJar", "file": "requests/requests/cookies.py", "type": "class", "repo": "requests", "relevance": 3},
+        {"name": "merge_cookies", "file": "requests/requests/cookies.py", "type": "function", "repo": "requests", "relevance": 2},
+        {"name": "create_cookie", "file": "requests/requests/cookies.py", "type": "function", "repo": "requests", "relevance": 1}
+      ]
+    },
+    {
+      "id": "xr12",
+      "query": "How do httpx and requests handle multipart form data encoding?",
+      "category": "implementation_alternative",
+      "expected_symbols": [
+        {"name": "MultipartStream", "file": "httpx/httpx/_multipart.py", "type": "class", "repo": "httpx", "relevance": 3},
+        {"name": "DataField", "file": "httpx/httpx/_multipart.py", "type": "class", "repo": "httpx", "relevance": 2},
+        {"name": "FileField", "file": "httpx/httpx/_multipart.py", "type": "class", "repo": "httpx", "relevance": 2},
+        {"name": "RequestField", "file": "urllib3/urllib3/fields.py", "type": "class", "repo": "urllib3", "relevance": 3},
+        {"name": "encode_multipart_formdata", "file": "urllib3/urllib3/filepost.py", "type": "function", "repo": "urllib3", "relevance": 2}
+      ]
+    }
+  ]
+}

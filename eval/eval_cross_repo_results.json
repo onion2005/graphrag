@@ -1,0 +1,1367 @@
+{
+  "config": {
+    "type": "cross_repo",
+    "top_k": 10,
+    "golden_dataset": "eval/golden_cross_repo.json",
+    "query_count": 12
+  },
+  "per_query": [
+    {
+      "id": "xr01",
+      "query": "How do httpx and requests implement basic HTTP authentication?",
+      "category": "concept_mapping",
+      "expected_count": 5,
+      "modes": {
+        "vector_only": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.2,
+          "total_recall": 0.2,
+          "mrr": 0.16666666666666666,
+          "ndcg_at_10": 0.14195578371863898,
+          "latency_ms": 18.0,
+          "result_count": 10,
+          "vector_count": 10,
+          "graph_count": 0,
+          "file_count": 4,
+          "repo_count": 2,
+          "found_repos": [
+            "requests"
+          ],
+          "found_relevant": [
+            "requests/HTTPBasicAuth"
+          ],
+          "missed_relevant": [
+            "httpx/BasicAuth",
+            "httpx/Auth",
+            "requests/AuthBase",
+            "requests/_basic_auth_str"
+          ]
+        },
+        "vector_ast": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.2,
+          "total_recall": 1.0,
+          "mrr": 0.16666666666666666,
+          "ndcg_at_10": 0.14195578371863898,
+          "latency_ms": 106.0,
+          "result_count": 26,
+          "vector_count": 10,
+          "graph_count": 16,
+          "file_count": 4,
+          "repo_count": 2,
+          "found_repos": [
+            "httpx",
+            "requests"
+          ],
+          "found_relevant": [
+            "httpx/BasicAuth",
+            "httpx/Auth",
+            "requests/HTTPBasicAuth",
+            "requests/AuthBase",
+            "requests/_basic_auth_str"
+          ],
+          "missed_relevant": []
+        },
+        "vector_cross_repo": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.2,
+          "total_recall": 0.4,
+          "mrr": 0.16666666666666666,
+          "ndcg_at_10": 0.14195578371863898,
+          "latency_ms": 183.4,
+          "result_count": 11,
+          "vector_count": 10,
+          "graph_count": 1,
+          "file_count": 4,
+          "repo_count": 2,
+          "found_repos": [
+            "httpx",
+            "requests"
+          ],
+          "found_relevant": [
+            "httpx/BasicAuth",
+            "requests/HTTPBasicAuth"
+          ],
+          "missed_relevant": [
+            "httpx/Auth",
+            "requests/AuthBase",
+            "requests/_basic_auth_str"
+          ]
+        },
+        "vector_ast_cross": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.2,
+          "total_recall": 1.0,
+          "mrr": 0.16666666666666666,
+          "ndcg_at_10": 0.14195578371863898,
+          "latency_ms": 116.9,
+          "result_count": 26,
+          "vector_count": 10,
+          "graph_count": 16,
+          "file_count": 4,
+          "repo_count": 2,
+          "found_repos": [
+            "httpx",
+            "requests"
+          ],
+          "found_relevant": [
+            "httpx/BasicAuth",
+            "httpx/Auth",
+            "requests/HTTPBasicAuth",
+            "requests/AuthBase",
+            "requests/_basic_auth_str"
+          ],
+          "missed_relevant": []
+        }
+      }
+    },
+    {
+      "id": "xr02",
+      "query": "How do different Python HTTP libraries handle digest authentication?",
+      "category": "concept_mapping",
+      "expected_count": 2,
+      "modes": {
+        "vector_only": {
+          "precision_at_5": 0.4,
+          "precision_at_10": 0.2,
+          "recall_at_5": 1.0,
+          "recall_at_10": 1.0,
+          "total_recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg_at_10": 0.5437713091520254,
+          "latency_ms": 15.2,
+          "result_count": 10,
+          "vector_count": 10,
+          "graph_count": 0,
+          "file_count": 4,
+          "repo_count": 2,
+          "found_repos": [
+            "httpx",
+            "requests"
+          ],
+          "found_relevant": [
+            "httpx/DigestAuth",
+            "requests/HTTPDigestAuth"
+          ],
+          "missed_relevant": []
+        },
+        "vector_ast": {
+          "precision_at_5": 0.4,
+          "precision_at_10": 0.2,
+          "recall_at_5": 1.0,
+          "recall_at_10": 1.0,
+          "total_recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg_at_10": 0.5437713091520254,
+          "latency_ms": 44.5,
+          "result_count": 30,
+          "vector_count": 10,
+          "graph_count": 20,
+          "file_count": 4,
+          "repo_count": 2,
+          "found_repos": [
+            "httpx",
+            "requests"
+          ],
+          "found_relevant": [
+            "httpx/DigestAuth",
+            "requests/HTTPDigestAuth"
+          ],
+          "missed_relevant": []
+        },
+        "vector_cross_repo": {
+          "precision_at_5": 0.4,
+          "precision_at_10": 0.2,
+          "recall_at_5": 1.0,
+          "recall_at_10": 1.0,
+          "total_recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg_at_10": 0.5437713091520254,
+          "latency_ms": 33.4,
+          "result_count": 11,
+          "vector_count": 10,
+          "graph_count": 1,
+          "file_count": 4,
+          "repo_count": 2,
+          "found_repos": [
+            "httpx",
+            "requests"
+          ],
+          "found_relevant": [
+            "httpx/DigestAuth",
+            "requests/HTTPDigestAuth"
+          ],
+          "missed_relevant": []
+        },
+        "vector_ast_cross": {
+          "precision_at_5": 0.4,
+          "precision_at_10": 0.2,
+          "recall_at_5": 1.0,
+          "recall_at_10": 1.0,
+          "total_recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg_at_10": 0.5437713091520254,
+          "latency_ms": 33.4,
+          "result_count": 30,
+          "vector_count": 10,
+          "graph_count": 20,
+          "file_count": 4,
+          "repo_count": 2,
+          "found_repos": [
+            "httpx",
+            "requests"
+          ],
+          "found_relevant": [
+            "httpx/DigestAuth",
+            "requests/HTTPDigestAuth"
+          ],
+          "missed_relevant": []
+        }
+      }
+    },
+    {
+      "id": "xr03",
+      "query": "How do httpx, requests, and urllib3 handle HTTP timeouts?",
+      "category": "concept_mapping",
+      "expected_count": 5,
+      "modes": {
+        "vector_only": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.0,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.0,
+          "total_recall": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_10": 0.0,
+          "latency_ms": 16.1,
+          "result_count": 10,
+          "vector_count": 10,
+          "graph_count": 0,
+          "file_count": 7,
+          "repo_count": 2,
+          "found_repos": [],
+          "found_relevant": [],
+          "missed_relevant": [
+            "httpx/Timeout",
+            "httpx/BaseClient._set_timeout",
+            "requests/Timeout",
+            "requests/ConnectTimeout",
+            "urllib3/Timeout"
+          ]
+        },
+        "vector_ast": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.0,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.0,
+          "total_recall": 0.2,
+          "mrr": 0.08333333333333333,
+          "ndcg_at_10": 0.0,
+          "latency_ms": 35.5,
+          "result_count": 26,
+          "vector_count": 10,
+          "graph_count": 16,
+          "file_count": 7,
+          "repo_count": 2,
+          "found_repos": [
+            "urllib3"
+          ],
+          "found_relevant": [
+            "urllib3/Timeout"
+          ],
+          "missed_relevant": [
+            "httpx/Timeout",
+            "httpx/BaseClient._set_timeout",
+            "requests/Timeout",
+            "requests/ConnectTimeout"
+          ]
+        },
+        "vector_cross_repo": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.0,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.0,
+          "total_recall": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_10": 0.0,
+          "latency_ms": 33.6,
+          "result_count": 12,
+          "vector_count": 10,
+          "graph_count": 2,
+          "file_count": 8,
+          "repo_count": 3,
+          "found_repos": [],
+          "found_relevant": [],
+          "missed_relevant": [
+            "httpx/Timeout",
+            "httpx/BaseClient._set_timeout",
+            "requests/Timeout",
+            "requests/ConnectTimeout",
+            "urllib3/Timeout"
+          ]
+        },
+        "vector_ast_cross": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.0,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.0,
+          "total_recall": 0.2,
+          "mrr": 0.07692307692307693,
+          "ndcg_at_10": 0.0,
+          "latency_ms": 35.6,
+          "result_count": 28,
+          "vector_count": 10,
+          "graph_count": 18,
+          "file_count": 8,
+          "repo_count": 3,
+          "found_repos": [
+            "urllib3"
+          ],
+          "found_relevant": [
+            "urllib3/Timeout"
+          ],
+          "missed_relevant": [
+            "httpx/Timeout",
+            "httpx/BaseClient._set_timeout",
+            "requests/Timeout",
+            "requests/ConnectTimeout"
+          ]
+        }
+      }
+    },
+    {
+      "id": "xr04",
+      "query": "How do requests and urllib3 manage connection pooling?",
+      "category": "dependency_chain",
+      "expected_count": 5,
+      "modes": {
+        "vector_only": {
+          "precision_at_5": 0.2,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.2,
+          "recall_at_10": 0.2,
+          "total_recall": 0.2,
+          "mrr": 0.2,
+          "ndcg_at_10": 0.14456656665111026,
+          "latency_ms": 15.1,
+          "result_count": 10,
+          "vector_count": 10,
+          "graph_count": 0,
+          "file_count": 8,
+          "repo_count": 2,
+          "found_repos": [
+            "requests"
+          ],
+          "found_relevant": [
+            "requests/HTTPAdapter"
+          ],
+          "missed_relevant": [
+            "requests/Session",
+            "urllib3/HTTPConnectionPool",
+            "urllib3/PoolManager",
+            "urllib3/ConnectionPool"
+          ]
+        },
+        "vector_ast": {
+          "precision_at_5": 0.2,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.2,
+          "recall_at_10": 0.2,
+          "total_recall": 0.6,
+          "mrr": 0.2,
+          "ndcg_at_10": 0.14456656665111026,
+          "latency_ms": 34.4,
+          "result_count": 30,
+          "vector_count": 10,
+          "graph_count": 20,
+          "file_count": 8,
+          "repo_count": 2,
+          "found_repos": [
+            "requests",
+            "urllib3"
+          ],
+          "found_relevant": [
+            "requests/HTTPAdapter",
+            "urllib3/HTTPConnectionPool",
+            "urllib3/ConnectionPool"
+          ],
+          "missed_relevant": [
+            "requests/Session",
+            "urllib3/PoolManager"
+          ]
+        },
+        "vector_cross_repo": {
+          "precision_at_5": 0.2,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.2,
+          "recall_at_10": 0.2,
+          "total_recall": 0.2,
+          "mrr": 0.2,
+          "ndcg_at_10": 0.14456656665111026,
+          "latency_ms": 20.5,
+          "result_count": 10,
+          "vector_count": 10,
+          "graph_count": 0,
+          "file_count": 8,
+          "repo_count": 2,
+          "found_repos": [
+            "requests"
+          ],
+          "found_relevant": [
+            "requests/HTTPAdapter"
+          ],
+          "missed_relevant": [
+            "requests/Session",
+            "urllib3/HTTPConnectionPool",
+            "urllib3/PoolManager",
+            "urllib3/ConnectionPool"
+          ]
+        },
+        "vector_ast_cross": {
+          "precision_at_5": 0.2,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.2,
+          "recall_at_10": 0.2,
+          "total_recall": 0.6,
+          "mrr": 0.2,
+          "ndcg_at_10": 0.14456656665111026,
+          "latency_ms": 39.0,
+          "result_count": 30,
+          "vector_count": 10,
+          "graph_count": 20,
+          "file_count": 8,
+          "repo_count": 2,
+          "found_repos": [
+            "requests",
+            "urllib3"
+          ],
+          "found_relevant": [
+            "requests/HTTPAdapter",
+            "urllib3/HTTPConnectionPool",
+            "urllib3/ConnectionPool"
+          ],
+          "missed_relevant": [
+            "requests/Session",
+            "urllib3/PoolManager"
+          ]
+        }
+      }
+    },
+    {
+      "id": "xr05",
+      "query": "How do httpx and requests structure their HTTP response objects?",
+      "category": "concept_mapping",
+      "expected_count": 3,
+      "modes": {
+        "vector_only": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.3333333333333333,
+          "total_recall": 0.3333333333333333,
+          "mrr": 0.1,
+          "ndcg_at_10": 0.09810798028872496,
+          "latency_ms": 15.9,
+          "result_count": 10,
+          "vector_count": 10,
+          "graph_count": 0,
+          "file_count": 8,
+          "repo_count": 2,
+          "found_repos": [
+            "urllib3"
+          ],
+          "found_relevant": [
+            "urllib3/HTTPResponse"
+          ],
+          "missed_relevant": [
+            "httpx/Response",
+            "requests/Response"
+          ]
+        },
+        "vector_ast": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.3333333333333333,
+          "total_recall": 0.3333333333333333,
+          "mrr": 0.1,
+          "ndcg_at_10": 0.09810798028872496,
+          "latency_ms": 33.9,
+          "result_count": 30,
+          "vector_count": 10,
+          "graph_count": 20,
+          "file_count": 8,
+          "repo_count": 2,
+          "found_repos": [
+            "urllib3"
+          ],
+          "found_relevant": [
+            "urllib3/HTTPResponse"
+          ],
+          "missed_relevant": [
+            "httpx/Response",
+            "requests/Response"
+          ]
+        },
+        "vector_cross_repo": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.3333333333333333,
+          "total_recall": 0.3333333333333333,
+          "mrr": 0.1,
+          "ndcg_at_10": 0.09810798028872496,
+          "latency_ms": 24.3,
+          "result_count": 10,
+          "vector_count": 10,
+          "graph_count": 0,
+          "file_count": 8,
+          "repo_count": 2,
+          "found_repos": [
+            "urllib3"
+          ],
+          "found_relevant": [
+            "urllib3/HTTPResponse"
+          ],
+          "missed_relevant": [
+            "httpx/Response",
+            "requests/Response"
+          ]
+        },
+        "vector_ast_cross": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.3333333333333333,
+          "total_recall": 0.3333333333333333,
+          "mrr": 0.1,
+          "ndcg_at_10": 0.09810798028872496,
+          "latency_ms": 37.2,
+          "result_count": 30,
+          "vector_count": 10,
+          "graph_count": 20,
+          "file_count": 8,
+          "repo_count": 2,
+          "found_repos": [
+            "urllib3"
+          ],
+          "found_relevant": [
+            "urllib3/HTTPResponse"
+          ],
+          "missed_relevant": [
+            "httpx/Response",
+            "requests/Response"
+          ]
+        }
+      }
+    },
+    {
+      "id": "xr06",
+      "query": "How do httpx and requests handle proxy configuration?",
+      "category": "concept_mapping",
+      "expected_count": 5,
+      "modes": {
+        "vector_only": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.0,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.0,
+          "total_recall": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_10": 0.0,
+          "latency_ms": 13.3,
+          "result_count": 10,
+          "vector_count": 10,
+          "graph_count": 0,
+          "file_count": 6,
+          "repo_count": 3,
+          "found_repos": [],
+          "found_relevant": [],
+          "missed_relevant": [
+            "httpx/Proxy",
+            "httpx/Client._init_proxy_transport",
+            "urllib3/ProxyManager",
+            "urllib3/ProxyConfig",
+            "requests/select_proxy"
+          ]
+        },
+        "vector_ast": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.0,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.0,
+          "total_recall": 0.2,
+          "mrr": 0.07692307692307693,
+          "ndcg_at_10": 0.0,
+          "latency_ms": 33.8,
+          "result_count": 28,
+          "vector_count": 10,
+          "graph_count": 18,
+          "file_count": 6,
+          "repo_count": 3,
+          "found_repos": [
+            "httpx"
+          ],
+          "found_relevant": [
+            "httpx/Proxy"
+          ],
+          "missed_relevant": [
+            "httpx/Client._init_proxy_transport",
+            "urllib3/ProxyManager",
+            "urllib3/ProxyConfig",
+            "requests/select_proxy"
+          ]
+        },
+        "vector_cross_repo": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.0,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.0,
+          "total_recall": 0.2,
+          "mrr": 0.09090909090909091,
+          "ndcg_at_10": 0.0,
+          "latency_ms": 32.1,
+          "result_count": 12,
+          "vector_count": 10,
+          "graph_count": 2,
+          "file_count": 7,
+          "repo_count": 3,
+          "found_repos": [
+            "httpx"
+          ],
+          "found_relevant": [
+            "httpx/Proxy"
+          ],
+          "missed_relevant": [
+            "httpx/Client._init_proxy_transport",
+            "urllib3/ProxyManager",
+            "urllib3/ProxyConfig",
+            "requests/select_proxy"
+          ]
+        },
+        "vector_ast_cross": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.0,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.0,
+          "total_recall": 0.2,
+          "mrr": 0.07692307692307693,
+          "ndcg_at_10": 0.0,
+          "latency_ms": 34.3,
+          "result_count": 29,
+          "vector_count": 10,
+          "graph_count": 19,
+          "file_count": 7,
+          "repo_count": 3,
+          "found_repos": [
+            "httpx"
+          ],
+          "found_relevant": [
+            "httpx/Proxy"
+          ],
+          "missed_relevant": [
+            "httpx/Client._init_proxy_transport",
+            "urllib3/ProxyManager",
+            "urllib3/ProxyConfig",
+            "requests/select_proxy"
+          ]
+        }
+      }
+    },
+    {
+      "id": "xr07",
+      "query": "How do these HTTP libraries decode compressed response content (gzip, deflate)?",
+      "category": "implementation_alternative",
+      "expected_count": 6,
+      "modes": {
+        "vector_only": {
+          "precision_at_5": 0.2,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.16666666666666666,
+          "recall_at_10": 0.16666666666666666,
+          "total_recall": 0.16666666666666666,
+          "mrr": 0.2,
+          "ndcg_at_10": 0.14083998424080346,
+          "latency_ms": 13.7,
+          "result_count": 10,
+          "vector_count": 10,
+          "graph_count": 0,
+          "file_count": 5,
+          "repo_count": 2,
+          "found_repos": [
+            "httpx"
+          ],
+          "found_relevant": [
+            "httpx/GZipDecoder"
+          ],
+          "missed_relevant": [
+            "httpx/DeflateDecoder",
+            "httpx/ContentDecoder",
+            "urllib3/GzipDecoder",
+            "urllib3/DeflateDecoder",
+            "urllib3/ContentDecoder"
+          ]
+        },
+        "vector_ast": {
+          "precision_at_5": 0.2,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.16666666666666666,
+          "recall_at_10": 0.16666666666666666,
+          "total_recall": 0.16666666666666666,
+          "mrr": 0.2,
+          "ndcg_at_10": 0.14083998424080346,
+          "latency_ms": 35.4,
+          "result_count": 30,
+          "vector_count": 10,
+          "graph_count": 20,
+          "file_count": 5,
+          "repo_count": 2,
+          "found_repos": [
+            "httpx"
+          ],
+          "found_relevant": [
+            "httpx/GZipDecoder"
+          ],
+          "missed_relevant": [
+            "httpx/DeflateDecoder",
+            "httpx/ContentDecoder",
+            "urllib3/GzipDecoder",
+            "urllib3/DeflateDecoder",
+            "urllib3/ContentDecoder"
+          ]
+        },
+        "vector_cross_repo": {
+          "precision_at_5": 0.2,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.16666666666666666,
+          "recall_at_10": 0.16666666666666666,
+          "total_recall": 0.3333333333333333,
+          "mrr": 0.2,
+          "ndcg_at_10": 0.14083998424080346,
+          "latency_ms": 33.8,
+          "result_count": 17,
+          "vector_count": 10,
+          "graph_count": 7,
+          "file_count": 6,
+          "repo_count": 3,
+          "found_repos": [
+            "httpx",
+            "urllib3"
+          ],
+          "found_relevant": [
+            "httpx/GZipDecoder",
+            "urllib3/GzipDecoder"
+          ],
+          "missed_relevant": [
+            "httpx/DeflateDecoder",
+            "httpx/ContentDecoder",
+            "urllib3/DeflateDecoder",
+            "urllib3/ContentDecoder"
+          ]
+        },
+        "vector_ast_cross": {
+          "precision_at_5": 0.2,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.16666666666666666,
+          "recall_at_10": 0.16666666666666666,
+          "total_recall": 0.16666666666666666,
+          "mrr": 0.2,
+          "ndcg_at_10": 0.14083998424080346,
+          "latency_ms": 34.9,
+          "result_count": 30,
+          "vector_count": 10,
+          "graph_count": 20,
+          "file_count": 5,
+          "repo_count": 2,
+          "found_repos": [
+            "httpx"
+          ],
+          "found_relevant": [
+            "httpx/GZipDecoder"
+          ],
+          "missed_relevant": [
+            "httpx/DeflateDecoder",
+            "httpx/ContentDecoder",
+            "urllib3/GzipDecoder",
+            "urllib3/DeflateDecoder",
+            "urllib3/ContentDecoder"
+          ]
+        }
+      }
+    },
+    {
+      "id": "xr08",
+      "query": "How do httpx and requests prepare and send HTTP requests?",
+      "category": "concept_mapping",
+      "expected_count": 5,
+      "modes": {
+        "vector_only": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.2,
+          "total_recall": 0.2,
+          "mrr": 0.125,
+          "ndcg_at_10": 0.0838127648563167,
+          "latency_ms": 13.9,
+          "result_count": 10,
+          "vector_count": 10,
+          "graph_count": 0,
+          "file_count": 5,
+          "repo_count": 2,
+          "found_repos": [
+            "requests"
+          ],
+          "found_relevant": [
+            "requests/Request"
+          ],
+          "missed_relevant": [
+            "httpx/Request",
+            "httpx/BaseClient.build_request",
+            "requests/PreparedRequest",
+            "requests/request"
+          ]
+        },
+        "vector_ast": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.2,
+          "total_recall": 0.2,
+          "mrr": 0.125,
+          "ndcg_at_10": 0.0838127648563167,
+          "latency_ms": 35.6,
+          "result_count": 30,
+          "vector_count": 10,
+          "graph_count": 20,
+          "file_count": 5,
+          "repo_count": 2,
+          "found_repos": [
+            "requests"
+          ],
+          "found_relevant": [
+            "requests/Request"
+          ],
+          "missed_relevant": [
+            "httpx/Request",
+            "httpx/BaseClient.build_request",
+            "requests/PreparedRequest",
+            "requests/request"
+          ]
+        },
+        "vector_cross_repo": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.2,
+          "total_recall": 0.4,
+          "mrr": 0.125,
+          "ndcg_at_10": 0.0838127648563167,
+          "latency_ms": 34.4,
+          "result_count": 22,
+          "vector_count": 10,
+          "graph_count": 12,
+          "file_count": 8,
+          "repo_count": 3,
+          "found_repos": [
+            "requests"
+          ],
+          "found_relevant": [
+            "requests/Request",
+            "requests/request"
+          ],
+          "missed_relevant": [
+            "httpx/Request",
+            "httpx/BaseClient.build_request",
+            "requests/PreparedRequest"
+          ]
+        },
+        "vector_ast_cross": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.2,
+          "total_recall": 0.4,
+          "mrr": 0.125,
+          "ndcg_at_10": 0.0838127648563167,
+          "latency_ms": 32.7,
+          "result_count": 30,
+          "vector_count": 10,
+          "graph_count": 20,
+          "file_count": 8,
+          "repo_count": 3,
+          "found_repos": [
+            "requests"
+          ],
+          "found_relevant": [
+            "requests/Request",
+            "requests/request"
+          ],
+          "missed_relevant": [
+            "httpx/Request",
+            "httpx/BaseClient.build_request",
+            "requests/PreparedRequest"
+          ]
+        }
+      }
+    },
+    {
+      "id": "xr09",
+      "query": "How do httpx and urllib3 handle SSL/TLS connections?",
+      "category": "implementation_alternative",
+      "expected_count": 5,
+      "modes": {
+        "vector_only": {
+          "precision_at_5": 0.2,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.2,
+          "recall_at_10": 0.2,
+          "total_recall": 0.2,
+          "mrr": 0.5,
+          "ndcg_at_10": 0.18295990522760897,
+          "latency_ms": 13.8,
+          "result_count": 10,
+          "vector_count": 10,
+          "graph_count": 0,
+          "file_count": 8,
+          "repo_count": 3,
+          "found_repos": [
+            "urllib3"
+          ],
+          "found_relevant": [
+            "urllib3/create_urllib3_context"
+          ],
+          "missed_relevant": [
+            "urllib3/HTTPSConnection",
+            "urllib3/ssl_wrap_socket",
+            "urllib3/SSLTransport",
+            "urllib3/HTTPSConnectionPool"
+          ]
+        },
+        "vector_ast": {
+          "precision_at_5": 0.2,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.2,
+          "recall_at_10": 0.2,
+          "total_recall": 0.4,
+          "mrr": 0.5,
+          "ndcg_at_10": 0.18295990522760897,
+          "latency_ms": 31.8,
+          "result_count": 30,
+          "vector_count": 10,
+          "graph_count": 20,
+          "file_count": 8,
+          "repo_count": 3,
+          "found_repos": [
+            "urllib3"
+          ],
+          "found_relevant": [
+            "urllib3/create_urllib3_context",
+            "urllib3/ssl_wrap_socket"
+          ],
+          "missed_relevant": [
+            "urllib3/HTTPSConnection",
+            "urllib3/SSLTransport",
+            "urllib3/HTTPSConnectionPool"
+          ]
+        },
+        "vector_cross_repo": {
+          "precision_at_5": 0.2,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.2,
+          "recall_at_10": 0.2,
+          "total_recall": 0.2,
+          "mrr": 0.5,
+          "ndcg_at_10": 0.18295990522760897,
+          "latency_ms": 32.5,
+          "result_count": 11,
+          "vector_count": 10,
+          "graph_count": 1,
+          "file_count": 9,
+          "repo_count": 3,
+          "found_repos": [
+            "urllib3"
+          ],
+          "found_relevant": [
+            "urllib3/create_urllib3_context"
+          ],
+          "missed_relevant": [
+            "urllib3/HTTPSConnection",
+            "urllib3/ssl_wrap_socket",
+            "urllib3/SSLTransport",
+            "urllib3/HTTPSConnectionPool"
+          ]
+        },
+        "vector_ast_cross": {
+          "precision_at_5": 0.2,
+          "precision_at_10": 0.1,
+          "recall_at_5": 0.2,
+          "recall_at_10": 0.2,
+          "total_recall": 0.4,
+          "mrr": 0.5,
+          "ndcg_at_10": 0.18295990522760897,
+          "latency_ms": 40.6,
+          "result_count": 30,
+          "vector_count": 10,
+          "graph_count": 20,
+          "file_count": 9,
+          "repo_count": 3,
+          "found_repos": [
+            "urllib3"
+          ],
+          "found_relevant": [
+            "urllib3/create_urllib3_context",
+            "urllib3/ssl_wrap_socket"
+          ],
+          "missed_relevant": [
+            "urllib3/HTTPSConnection",
+            "urllib3/SSLTransport",
+            "urllib3/HTTPSConnectionPool"
+          ]
+        }
+      }
+    },
+    {
+      "id": "xr10",
+      "query": "How do httpx and urllib3 handle retry logic?",
+      "category": "implementation_alternative",
+      "expected_count": 4,
+      "modes": {
+        "vector_only": {
+          "precision_at_5": 0.2,
+          "precision_at_10": 0.2,
+          "recall_at_5": 0.25,
+          "recall_at_10": 0.5,
+          "total_recall": 0.5,
+          "mrr": 0.3333333333333333,
+          "ndcg_at_10": 0.3378327176580548,
+          "latency_ms": 14.3,
+          "result_count": 10,
+          "vector_count": 10,
+          "graph_count": 0,
+          "file_count": 7,
+          "repo_count": 2,
+          "found_repos": [
+            "requests",
+            "urllib3"
+          ],
+          "found_relevant": [
+            "urllib3/Retry",
+            "requests/HTTPAdapter"
+          ],
+          "missed_relevant": [
+            "urllib3/RequestHistory",
+            "urllib3/MaxRetryError"
+          ]
+        },
+        "vector_ast": {
+          "precision_at_5": 0.2,
+          "precision_at_10": 0.2,
+          "recall_at_5": 0.25,
+          "recall_at_10": 0.5,
+          "total_recall": 0.75,
+          "mrr": 0.3333333333333333,
+          "ndcg_at_10": 0.3378327176580548,
+          "latency_ms": 36.1,
+          "result_count": 30,
+          "vector_count": 10,
+          "graph_count": 20,
+          "file_count": 7,
+          "repo_count": 2,
+          "found_repos": [
+            "requests",
+            "urllib3"
+          ],
+          "found_relevant": [
+            "urllib3/Retry",
+            "urllib3/RequestHistory",
+            "requests/HTTPAdapter"
+          ],
+          "missed_relevant": [
+            "urllib3/MaxRetryError"
+          ]
+        },
+        "vector_cross_repo": {
+          "precision_at_5": 0.2,
+          "precision_at_10": 0.2,
+          "recall_at_5": 0.25,
+          "recall_at_10": 0.5,
+          "total_recall": 0.5,
+          "mrr": 0.3333333333333333,
+          "ndcg_at_10": 0.3378327176580548,
+          "latency_ms": 20.7,
+          "result_count": 10,
+          "vector_count": 10,
+          "graph_count": 0,
+          "file_count": 7,
+          "repo_count": 2,
+          "found_repos": [
+            "requests",
+            "urllib3"
+          ],
+          "found_relevant": [
+            "urllib3/Retry",
+            "requests/HTTPAdapter"
+          ],
+          "missed_relevant": [
+            "urllib3/RequestHistory",
+            "urllib3/MaxRetryError"
+          ]
+        },
+        "vector_ast_cross": {
+          "precision_at_5": 0.2,
+          "precision_at_10": 0.2,
+          "recall_at_5": 0.25,
+          "recall_at_10": 0.5,
+          "total_recall": 0.75,
+          "mrr": 0.3333333333333333,
+          "ndcg_at_10": 0.3378327176580548,
+          "latency_ms": 35.5,
+          "result_count": 30,
+          "vector_count": 10,
+          "graph_count": 20,
+          "file_count": 7,
+          "repo_count": 2,
+          "found_repos": [
+            "requests",
+            "urllib3"
+          ],
+          "found_relevant": [
+            "urllib3/Retry",
+            "urllib3/RequestHistory",
+            "requests/HTTPAdapter"
+          ],
+          "missed_relevant": [
+            "urllib3/MaxRetryError"
+          ]
+        }
+      }
+    },
+    {
+      "id": "xr11",
+      "query": "How do httpx and requests handle cookies across requests?",
+      "category": "concept_mapping",
+      "expected_count": 5,
+      "modes": {
+        "vector_only": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.0,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.0,
+          "total_recall": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_10": 0.0,
+          "latency_ms": 13.5,
+          "result_count": 10,
+          "vector_count": 10,
+          "graph_count": 0,
+          "file_count": 4,
+          "repo_count": 1,
+          "found_repos": [],
+          "found_relevant": [],
+          "missed_relevant": [
+            "httpx/Cookies",
+            "httpx/BaseClient._merge_cookies",
+            "requests/RequestsCookieJar",
+            "requests/merge_cookies",
+            "requests/create_cookie"
+          ]
+        },
+        "vector_ast": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.0,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.0,
+          "total_recall": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_10": 0.0,
+          "latency_ms": 45.5,
+          "result_count": 14,
+          "vector_count": 10,
+          "graph_count": 4,
+          "file_count": 4,
+          "repo_count": 1,
+          "found_repos": [],
+          "found_relevant": [],
+          "missed_relevant": [
+            "httpx/Cookies",
+            "httpx/BaseClient._merge_cookies",
+            "requests/RequestsCookieJar",
+            "requests/merge_cookies",
+            "requests/create_cookie"
+          ]
+        },
+        "vector_cross_repo": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.0,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.0,
+          "total_recall": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_10": 0.0,
+          "latency_ms": 41.2,
+          "result_count": 11,
+          "vector_count": 10,
+          "graph_count": 1,
+          "file_count": 5,
+          "repo_count": 2,
+          "found_repos": [],
+          "found_relevant": [],
+          "missed_relevant": [
+            "httpx/Cookies",
+            "httpx/BaseClient._merge_cookies",
+            "requests/RequestsCookieJar",
+            "requests/merge_cookies",
+            "requests/create_cookie"
+          ]
+        },
+        "vector_ast_cross": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.0,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.0,
+          "total_recall": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_10": 0.0,
+          "latency_ms": 46.3,
+          "result_count": 15,
+          "vector_count": 10,
+          "graph_count": 5,
+          "file_count": 5,
+          "repo_count": 2,
+          "found_repos": [],
+          "found_relevant": [],
+          "missed_relevant": [
+            "httpx/Cookies",
+            "httpx/BaseClient._merge_cookies",
+            "requests/RequestsCookieJar",
+            "requests/merge_cookies",
+            "requests/create_cookie"
+          ]
+        }
+      }
+    },
+    {
+      "id": "xr12",
+      "query": "How do httpx and requests handle multipart form data encoding?",
+      "category": "implementation_alternative",
+      "expected_count": 5,
+      "modes": {
+        "vector_only": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.0,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.0,
+          "total_recall": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_10": 0.0,
+          "latency_ms": 14.6,
+          "result_count": 10,
+          "vector_count": 10,
+          "graph_count": 0,
+          "file_count": 6,
+          "repo_count": 3,
+          "found_repos": [],
+          "found_relevant": [],
+          "missed_relevant": [
+            "httpx/MultipartStream",
+            "httpx/DataField",
+            "httpx/FileField",
+            "urllib3/RequestField",
+            "urllib3/encode_multipart_formdata"
+          ]
+        },
+        "vector_ast": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.0,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.0,
+          "total_recall": 0.6,
+          "mrr": 0.09090909090909091,
+          "ndcg_at_10": 0.0,
+          "latency_ms": 40.3,
+          "result_count": 22,
+          "vector_count": 10,
+          "graph_count": 12,
+          "file_count": 6,
+          "repo_count": 3,
+          "found_repos": [
+            "httpx"
+          ],
+          "found_relevant": [
+            "httpx/MultipartStream",
+            "httpx/DataField",
+            "httpx/FileField"
+          ],
+          "missed_relevant": [
+            "urllib3/RequestField",
+            "urllib3/encode_multipart_formdata"
+          ]
+        },
+        "vector_cross_repo": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.0,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.0,
+          "total_recall": 0.2,
+          "mrr": 0.08333333333333333,
+          "ndcg_at_10": 0.0,
+          "latency_ms": 36.8,
+          "result_count": 12,
+          "vector_count": 10,
+          "graph_count": 2,
+          "file_count": 7,
+          "repo_count": 3,
+          "found_repos": [
+            "urllib3"
+          ],
+          "found_relevant": [
+            "urllib3/encode_multipart_formdata"
+          ],
+          "missed_relevant": [
+            "httpx/MultipartStream",
+            "httpx/DataField",
+            "httpx/FileField",
+            "urllib3/RequestField"
+          ]
+        },
+        "vector_ast_cross": {
+          "precision_at_5": 0.0,
+          "precision_at_10": 0.0,
+          "recall_at_5": 0.0,
+          "recall_at_10": 0.0,
+          "total_recall": 0.8,
+          "mrr": 0.09090909090909091,
+          "ndcg_at_10": 0.0,
+          "latency_ms": 357.4,
+          "result_count": 23,
+          "vector_count": 10,
+          "graph_count": 13,
+          "file_count": 7,
+          "repo_count": 3,
+          "found_repos": [
+            "httpx",
+            "urllib3"
+          ],
+          "found_relevant": [
+            "httpx/MultipartStream",
+            "httpx/DataField",
+            "httpx/FileField",
+            "urllib3/encode_multipart_formdata"
+          ],
+          "missed_relevant": [
+            "urllib3/RequestField"
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -22,6 +22,7 @@ def load_nodes(driver, nodes: list[dict]):
         c.docstring = n.docstring,
         c.source_code = n.source_code,
         c.lineno = n.lineno,
+        c.repo = n.repo,
         c.qualified_name = n.file + ':' + n.name + ':' + n.type
     """
     with driver.session() as session:
@@ -47,6 +48,19 @@ def load_llm_edges(driver, edges: list[dict]):
     SET r.confidence = e.confidence,
         r.reason = e.reason,
         r.source = 'llm'
+    """
+    with driver.session() as session:
+        session.run(query, edges=edges)
+
+
+def load_cross_repo_edges(driver, edges: list[dict]):
+    query = """
+    UNWIND $edges AS e
+    MATCH (a:CodeNode {id: e.source}), (b:CodeNode {id: e.target})
+    MERGE (a)-[r:CROSS_REPO_RELATES {type: e.type}]->(b)
+    SET r.confidence = e.confidence,
+        r.reason = e.reason,
+        r.source = 'llm_cross_repo'
     """
     with driver.session() as session:
         session.run(query, edges=edges)

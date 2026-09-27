@@ -28,13 +28,28 @@ AST graph expansion **more than doubled total recall** — from 27.4% to 70.3%. 
 
 ![Recall by Category](../eval/recall_by_category.png)
 
-**The uncomfortable conclusion:**
+**But wait — what about multiple repos?**
 
-For code, the knowledge graph you need is the one your parser already gives you for free. The expensive LLM extraction step that papers recommend? I ran a controlled A/B test — 478 LLM-extracted edges vs 1,328 AST edges — and the LLM edges added +1.3pp recall while slightly hurting ranking. CALLS and INHERITS edges did all the work.
+AST edges can't cross repo boundaries. There's no IMPORT edge from `httpx.BasicAuth` to `requests.HTTPBasicAuth` — they're independent codebases. So I ran a second experiment: 3 repos (httpx, requests, urllib3), 2,080 nodes, 12 cross-repo queries.
 
-This doesn't mean LLM-extracted edges are useless for all domains — unstructured documents don't have ASTs. But if your corpus has formal structure (code, schemas, APIs, configs), extract the graph from the structure first. Only add LLM edges if the eval shows a gap.
+I used Claude Haiku to extract 538 semantic edges across repo boundaries — SIMILAR_TO, ALTERNATIVE_TO, IMPLEMENTS_SAME_INTERFACE. Things like "httpx's GZipDecoder is equivalent to urllib3's GzipDecoder."
 
-Stack: Python, Neo4j, ChromaDB, LangGraph agent, BGE embeddings. Code on GitHub.
+| Mode | Total Recall |
+|------|-------------|
+| Vector only | 23.3% |
+| Vector + AST | 45.4% |
+| Vector + cross-repo LLM | 31.4% |
+| **Vector + AST + cross-repo LLM** | **48.7%** |
+
+Cross-repo LLM edges found 3 symbols that AST couldn't reach — `urllib3/GzipDecoder`, `requests/request`, `urllib3/encode_multipart_formdata` — connected by semantic similarity, not imports.
+
+**The nuanced conclusion:**
+
+Within a single repo, the AST graph is free and does all the work. LLM edges add noise. But across repos at scale? AST can't see cross-boundary relationships. LLM edges fill exactly that gap — +3.3pp recall on top of AST, finding symbols that are structurally invisible but semantically related.
+
+The real question for production: who writes AST rules for 10,000 repos in different languages? LLM extraction scales where hand-written parsers don't.
+
+Stack: Python, Neo4j, ChromaDB, LangGraph agent, BGE embeddings, Claude Haiku. Code on GitHub.
 
 ---
 

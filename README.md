@@ -28,15 +28,26 @@ Traditional RAG retrieves code by semantic similarity — but misses structural 
                     └─────────────────────────────────────────┘
 ```
 
+## Knowledge Graph
+
+![Neo4j Graph — 2,080 nodes, 2,940 relationships across httpx, requests, urllib3](docs/neo4j-graph.png)
+
 ## Key Results
 
-### GraphRAG Evaluation
+### Single-Repo GraphRAG (httpx)
 
 - AST graph expansion **more than doubles total recall** (27.4% → 70.3%) — finds symbols embeddings miss entirely
 - Graph is a **pure recall expander**: top-k ranking (Recall@10, NDCG@10) is identical with or without graph — graph nodes rank below vector hits
-- LLM-extracted edges (478 SIMILAR_TO/DEPENDS_ON) added only **+1.3pp recall** and slightly hurt ranking — AST parser edges did all the work
+- Within-repo LLM edges (478 SIMILAR_TO/DEPENDS_ON) added only **+1.3pp recall** — AST parser edges did all the work
 - Graph without vector entry points is useless — you need both, in sequence
-- Hop-decay scoring (0.8 per hop) prevents distant neighbors from diluting relevance
+
+### Cross-Repo GraphRAG (httpx + requests + urllib3)
+
+- **LLM edges add unique value across repo boundaries** — where AST edges can't reach
+- 538 cross-repo LLM edges extracted via Claude Haiku across 3 repos (2,080 nodes)
+- AST alone: 45.4% total recall → AST + cross-repo LLM: **48.7%** (+3.3pp)
+- LLM edges found symbols AST couldn't: `urllib3/GzipDecoder`, `requests/request`, `urllib3/encode_multipart_formdata` — connected by semantic similarity, not imports
+- **Conclusion:** within a single repo, AST is king. Across repos at scale, LLM edges fill the gap AST can't cover
 
 ### Self-Hosted LLM Load Test
 
@@ -58,7 +69,7 @@ Tested with Locust against Qwen 2.5 7B on vLLM (g5.xlarge):
 ├── agent/              # LangGraph agent with tool-calling
 ├── ingestion/          # AST parser, embedder, Neo4j loader, LLM extractor
 ├── retrieval/          # Hybrid search (vector + graph), Cypher templates
-├── eval/               # Golden dataset, LLM-as-judge, metrics (NDCG, MRR, P@K)
+├── eval/               # Golden datasets (single + cross-repo), metrics (NDCG, MRR, P@K)
 ├── loadtest/           # Locust load tests, cost analysis, reports
 ├── infra/
 │   ├── eks/            # EKS cluster config (eksctl)

@@ -25,7 +25,7 @@ def build_vector_store(nodes: list[dict]):
 
     ids = [n["id"] for n in unique_nodes]
     documents = [build_chunk_text(n) for n in unique_nodes]
-    metadatas = [{"name": n["name"], "type": n["type"], "file": n["file"]} for n in unique_nodes]
+    metadatas = [{"name": n["name"], "type": n["type"], "file": n["file"], "repo": n.get("repo", "")} for n in unique_nodes]
     embeddings = model.encode(documents, show_progress_bar=True).tolist()
 
     # Chroma has a batch size limit, insert in chunks of 5000
