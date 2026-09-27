@@ -10,6 +10,8 @@ Code isn't a document. It has a formal, parseable structure — an AST. Every cl
 
 So I built a GraphRAG system: vector search finds the entry points, then graph expansion walks structural edges to pull in related symbols the embeddings missed. Hop-decay scoring (0.8 per hop) keeps distant neighbors from diluting relevance.
 
+![Recall Comparison: Vector vs Hybrid](../eval/recall_comparison.png)
+
 **The results that changed my assumptions:**
 
 Vector + AST graph found **77% more relevant symbols** than vector alone (10.8 vs 6.1 per query). But here's what I didn't expect:
@@ -19,6 +21,10 @@ Vector + AST graph found **77% more relevant symbols** than vector alone (10.8 v
 2. **Graph without vector is useless.** Pure graph traversal without good seed nodes returns noise. The vector search IS the entry point — you need both, but in a specific order.
 
 3. **The real win is cross-file discovery.** Authentication in httpx spans `_auth.py`, `_client.py`, and `_config.py`. Vector search finds one file. The graph finds all three. This is the problem GraphRAG actually solves for code: following dependencies across file boundaries.
+
+![Ranking Quality by Retrieval Mode](../eval/ranking_quality.png)
+
+![Recall by Category](../eval/recall_by_category.png)
 
 **The uncomfortable conclusion:**
 

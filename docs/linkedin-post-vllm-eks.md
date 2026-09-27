@@ -1,5 +1,7 @@
 # LinkedIn Post — Self-Hosted LLM on EKS
 
+![Architecture & Load Test Results](../loadtest/hero_linkedin.png)
+
 "Self-hosting is cheaper than APIs." I built it, load-tested it, and ran the numbers. The answer is: it depends on volume, and the APIs are much faster.
 
 **Setup:** Qwen 2.5 7B on EKS → Karpenter GPU autoscaling → vLLM → OpenAI-compatible API. Single g5.xlarge (A10G GPU).
@@ -24,6 +26,8 @@ APIs are 5-10x faster. A10G running a 7B model can't match H100 clusters behind 
 | 10K | $724 | $252 | $357 | $57 |
 | 50K | $724 | $252 | $1,784 | $284 |
 | 100K | $724 | $252 | $3,569 | $568 |
+
+![Cost Crossover Analysis](../loadtest/cost_crossover.png)
 
 **Crossover points:** Self-hosted (spot) beats Claude Haiku at ~7K daily requests. Beats GPT-4o-mini at ~44K daily. On-demand: ~20K and ~128K respectively.
 
