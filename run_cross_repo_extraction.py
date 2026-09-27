@@ -50,7 +50,7 @@ def extract_pair(client, node_a, node_b):
     )
 
     response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
+        model=os.environ.get("ANTHROPIC_MODEL", "claude-haiku-4-5-20251001"),
         max_tokens=256,
         messages=[{"role": "user", "content": prompt}],
     )
@@ -140,9 +140,11 @@ def main():
     pairs = ranked[:500]
     print(f"Processing {len(pairs)} pairs with Claude Haiku...")
 
-    client = anthropic.Anthropic(
-        default_headers={"anthropic-workspace-id": "wrkspc_013b68RhKngegNc3a8e7CkJm"},
-    )
+    headers = {}
+    workspace_id = os.environ.get("ANTHROPIC_WORKSPACE_ID")
+    if workspace_id:
+        headers["anthropic-workspace-id"] = workspace_id
+    client = anthropic.Anthropic(default_headers=headers)
 
     edges = []
     for i, (a, b, sim) in enumerate(pairs):
