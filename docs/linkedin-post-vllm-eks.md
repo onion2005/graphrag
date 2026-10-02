@@ -6,9 +6,9 @@
 
 **Setup:** Qwen 2.5 7B on EKS → Karpenter GPU autoscaling → vLLM → OpenAI-compatible API. Single g5.xlarge (A10G GPU).
 
-**Latency (Locust, 5 concurrent users, realistic workloads):**
+**Latency (self-hosted measured with Locust at 5 concurrent users; API estimates for comparison):**
 
-| Workload | Self-hosted P50 | Claude Haiku (est.) | GPT-4o-mini (est.) |
+| Workload | Self-hosted P50 (measured) | Claude Haiku (est.) | GPT-4o-mini (est.) |
 |---|---|---|---|
 | Tool call | 1.6s | ~0.5s | ~0.3s |
 | JSON extraction | 2.5s | ~0.8s | ~0.5s |
@@ -37,12 +37,13 @@ APIs are 5-10x faster. A10G running a 7B model can't match H100 clusters behind 
 2. APIs win on cost at low volume (<7K req/day)
 3. Self-hosted wins on cost at scale (>20K req/day even on-demand)
 4. Self-hosted wins on data sovereignty — tokens never leave your VPC
-5. Self-hosted loses on ops burden — 6-min cold start, GPU quota requests, Karpenter tuning, driver compat, K8s sharp edges
+5. Self-hosted loses on ops burden — ~3-4 min cold start (model loading), GPU quota requests, Karpenter tuning, driver compat, K8s sharp edges
 6. Quality gap — 7B tool calling works, but isn't frontier-model quality
+7. Model flexibility — swap Qwen for Mistral (or any HF model) with a config change and pod restart
 
 **Self-host when:** sustained high throughput (>10K req/day), data stays in your VPC, you have infra engineers. **Use APIs when:** latency matters, volume is low, you need frontier quality.
 
-Code + infra manifests on GitHub.
+Code + infra manifests: https://github.com/onion2005/graphrag
 
 ---
 
