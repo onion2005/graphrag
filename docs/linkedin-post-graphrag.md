@@ -10,6 +10,8 @@ Code isn't a document. It has a formal, parseable structure — an AST. Every cl
 
 So I built a GraphRAG system: vector search finds the entry points, then graph expansion walks structural edges to pull in related symbols the embeddings missed. Hop-decay scoring (0.8 per hop) keeps distant neighbors from diluting relevance.
 
+![Neo4j Knowledge Graph — 2,080 nodes, 2,940 relationships across httpx, requests, urllib3](../docs/neo4j-graph.png)
+
 ![Recall Comparison: Vector vs Hybrid](../eval/recall_comparison.png)
 
 **The results that changed my assumptions:**
