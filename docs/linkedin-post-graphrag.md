@@ -32,7 +32,7 @@ AST graph expansion **more than doubled total recall** — from 25.6% to 59.9%. 
 
 AST edges can't cross repo boundaries. There's no IMPORT edge from `httpx.BasicAuth` to `requests.HTTPBasicAuth` — they're independent codebases. So I ran a second experiment: 3 repos (httpx, requests, urllib3), 2,080 nodes, 12 cross-repo queries.
 
-I used Claude Haiku to extract 538 semantic edges across repo boundaries — SIMILAR_TO, ALTERNATIVE_TO, IMPLEMENTS_SAME_INTERFACE. Things like "httpx's GZipDecoder is equivalent to urllib3's GzipDecoder."
+How do you connect repos that don't import each other? You can't brute-force every pair — 2,080 nodes × 2,080 nodes is 4.3M combinations. Instead: embed all symbols, compute cosine similarity across repos only (skip same-repo pairs), take the top 500 most similar cross-repo pairs, then send each pair to Claude Haiku to validate the relationship. 500 LLM calls, not 4.3M. Result: 538 edges — SIMILAR_TO, ALTERNATIVE_TO, IMPLEMENTS_SAME_INTERFACE. Things like "httpx's GZipDecoder is equivalent to urllib3's GzipDecoder."
 
 | Mode | Total Recall |
 |------|-------------|
