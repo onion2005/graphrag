@@ -7,5 +7,6 @@ chroma_store/
 .mcp.json
 .claude/
 corpus/
-llm_edges_pruned.json
+llm_edges*.json
+nodes_*.json
 ai-platform-poc-roadmap.md
