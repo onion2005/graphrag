@@ -14,6 +14,7 @@ MODES = {
     "vector_ast_graph": {"func": hybrid_retrieve, "kwargs": {"graph_type": "baseline"}},
     "vector_graph_llm": {"func": hybrid_retrieve, "kwargs": {"graph_type": "llm"}},
     "vector_graph_ast_llm": {"func": hybrid_retrieve, "kwargs": {"graph_type": "both"}},
+    "vector_graphify": {"func": hybrid_retrieve, "kwargs": {"graph_type": "graphify"}},
 }
 
 

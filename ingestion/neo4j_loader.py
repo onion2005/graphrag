@@ -66,6 +66,17 @@ def load_cross_repo_edges(driver, edges: list[dict]):
         session.run(query, edges=edges)
 
 
+def load_graphify_edges(driver, edges: list[dict]):
+    query = """
+    UNWIND $edges AS e
+    MATCH (a:CodeNode {id: e.source}), (b:CodeNode {id: e.target})
+    MERGE (a)-[r:GRAPHIFY_RELATES {type: e.type}]->(b)
+    SET r.source = 'graphify'
+    """
+    with driver.session() as session:
+        session.run(query, edges=edges)
+
+
 def clear_graph(driver):
     with driver.session() as session:
         session.run("MATCH (n:CodeNode) DETACH DELETE n")
