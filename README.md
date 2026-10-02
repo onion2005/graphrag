@@ -36,9 +36,9 @@ Traditional RAG retrieves code by semantic similarity — but misses structural 
 
 ### Single-Repo GraphRAG (httpx)
 
-- AST graph expansion **more than doubles total recall** (27.4% → 70.3%) — finds symbols embeddings miss entirely
+- AST graph expansion **more than doubles total recall** (25.6% → 59.9%) — finds symbols embeddings miss entirely
 - Graph is a **pure recall expander**: top-k ranking (Recall@10, NDCG@10) is identical with or without graph — graph nodes rank below vector hits
-- Within-repo LLM edges (478 SIMILAR_TO/DEPENDS_ON) added only **+1.3pp recall** — AST parser edges did all the work
+- Within-repo LLM edges (478 SIMILAR_TO/DEPENDS_ON) added **zero recall** — AST parser edges did all the work
 - Graph without vector entry points is useless — you need both, in sequence
 
 ### Cross-Repo GraphRAG (httpx + requests + urllib3)

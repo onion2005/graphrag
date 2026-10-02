@@ -14,11 +14,11 @@ So I built a GraphRAG system: vector search finds the entry points, then graph e
 
 **The results that changed my assumptions:**
 
-AST graph expansion **more than doubled total recall** — from 27.4% to 70.3%. But it didn't improve top-k ranking. Recall@5, Recall@10, NDCG@10 were identical with or without the graph. Here's what that means:
+AST graph expansion **more than doubled total recall** — from 25.6% to 59.9%. But it didn't improve top-k ranking. Recall@5, Recall@10, NDCG@10 were identical with or without the graph. Here's what that means:
 
 1. **Graph is a pure recall expander, not a ranker.** It finds relevant symbols that embeddings miss entirely — but those symbols rank below the vector hits. The graph fills in the long tail, not the top of the list. This matters: if your application only looks at top-10 results, graph adds nothing. If it can use 20-30 results (like an agent with tool calls), graph is a 2.6x recall win.
 
-2. **LLM-extracted edges added near-zero value.** I spent 500 LLM calls extracting SIMILAR_TO / DEPENDS_ON relationships between symbols (478 edges). With those edges loaded, total recall went from 27.4% to… 28.7%. That's +1.3pp. AST edges alone got +43pp. The LLM edges also slightly hurt MRR when combined with AST (0.411 → 0.407) — adding noise, not signal. The parser gives you the graph for free.
+2. **LLM-extracted edges added zero value within a single repo.** I spent 500 LLM calls extracting SIMILAR_TO / DEPENDS_ON relationships (478 edges). Total recall didn't budge — still 25.6%. AST edges alone got +34pp. The parser gives you the graph for free.
 
 3. **Graph without vector is useless.** Pure graph traversal without good seed nodes returns noise. The vector search IS the entry point — you need both, but in a specific order.
 

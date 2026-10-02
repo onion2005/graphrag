@@ -30,11 +30,13 @@ def resolve_ids(expected_symbols: list[dict]) -> dict[str, int]:
         # and repo_name is provided separately. For single-repo datasets, no repo field.
         repo_name = s.get("repo")
         if repo_name:
-            # Strip repo prefix from file path since make_node_id adds it via repo_name
             file_path = s["file"]
-            prefix = f"{repo_name}/"
+            # Cross-repo datasets have paths like "httpx/httpx/_auth.py" (repo/package/file)
+            # Single-repo datasets have paths like "httpx/_client.py" (package/file)
+            # Strip repo prefix only if file starts with "repo/repo" (doubled prefix)
+            prefix = f"{repo_name}/{repo_name}"
             if file_path.startswith(prefix):
-                file_path = file_path[len(prefix):]
+                file_path = file_path[len(f"{repo_name}/"):]
             node_id = make_node_id(file_path, s["name"], s["type"], repo_name=repo_name)
         else:
             node_id = make_node_id(s["file"], s["name"], s["type"])
