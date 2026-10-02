@@ -41,6 +41,8 @@ How do you connect repos that don't import each other? You can't brute-force eve
 | Vector + cross-repo LLM | 31.4% |
 | **Vector + AST + cross-repo LLM** | **48.7%** |
 
+![Cross-Repo Recall: AST + LLM vs AST Only](../eval/cross_repo_recall.png)
+
 Cross-repo LLM edges found 3 symbols that AST couldn't reach — `urllib3/GzipDecoder`, `requests/request`, `urllib3/encode_multipart_formdata` — connected by semantic similarity, not imports.
 
 **The nuanced conclusion:**
