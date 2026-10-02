@@ -22,7 +22,24 @@ AST graph expansion more than doubled total recall (25.6% to 59.9%). But it didn
 
 **2. The build-vs-buy decision for graph extraction is unintuitive.** I spent 500 LLM calls extracting SIMILAR_TO / DEPENDS_ON edges within a single repo (478 edges). Zero recall improvement. The AST parser — which runs in seconds, costs nothing, and requires no prompt engineering — produced all the signal. **Within a single codebase, structural relationships dominate semantic ones.** CALLS and INHERITS edges encode architecture. LLM-inferred edges just rediscover what the import graph already knows.
 
-You also have a choice in how you build the AST graph. Tools like [Graphify](https://github.com/Graphify-Labs/graphify) give you tree-sitter parsing across 40 languages out of the box — zero custom code, community detection, visualization included. But you trade control: I needed stable global IDs across repos so cross-repo LLM edges could reference nodes deterministically. With a hand-rolled parser, I control the ID scheme, the edge types, the Neo4j schema. With an off-the-shelf tool, you get speed but lose that flexibility. The principal's calculus: if you're building a one-repo prototype, use Graphify. If you're designing a multi-repo retrieval system where node identity matters across pipelines, you'll end up owning the parser anyway.
+You also have a choice in *how* you build the AST graph. I compared my hand-rolled Python AST parser against [Graphify](https://github.com/Graphify-Labs/graphify), an open-source tool that uses tree-sitter for the same deterministic extraction:
+
+|  | Custom AST Parser | Graphify |
+|---|---|---|
+| **Languages** | Python only | ~40 (tree-sitter grammars) |
+| **Edge types** | CALLS, IMPORTS, INHERITS | calls, imports, inherits, mixes_in, uses, references, depends_on |
+| **Node identity** | Custom global IDs (hash-based, repo-scoped) | Auto-generated, no custom ID scheme |
+| **Graph storage** | Neo4j (queryable, supports Cypher) | JSON + HTML viz (Neo4j export via Cypher dump) |
+| **Schema control** | Full — custom properties, edge types, indexes | Fixed schema |
+| **Community detection** | None | Leiden algorithm, auto-labels subsystems |
+| **Visualization** | Neo4j Browser | Built-in interactive force-directed graph |
+| **Incremental updates** | Full re-parse | `--update` rescans only changed files |
+| **Non-code sources** | None | Docs, PDFs, images, SQL schemas |
+| **Setup time** | ~2 days to build | `pip install graphifyy` |
+
+The trade-off is control vs. speed-to-value. Graphify gives you 40 languages, community detection, incremental updates, and a visualization out of the box. But I needed stable global IDs across repos so cross-repo LLM edges could reference nodes deterministically, custom Neo4j indexes for graph traversal queries, and full control over edge types for the retrieval pipeline. With an off-the-shelf tool, you can't own the identity layer.
+
+The principal's calculus: if you're building a single-repo prototype or want fast architectural insight, use Graphify — it's genuinely good. If you're designing a multi-repo retrieval system where node identity matters across pipelines and you need the graph as a queryable backend (not just a visualization), you'll end up owning the parser anyway.
 
 **3. But this breaks down across repo boundaries.**
 
