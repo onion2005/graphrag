@@ -1,6 +1,6 @@
 # LinkedIn Post — GraphRAG: When Vector Search Isn't Enough
 
-RAG doesn't work well on code. Here's why, and what I built instead.
+Vector search on code has a blind spot. It finds what's similar, not what's connected.
 
 The failure mode is subtle. You ask "how does httpx handle authentication?" Vector search returns `BasicAuth`, `DigestAuth`, `NetRCAuth` — semantically similar to your query. Looks good. But it completely misses the `Auth` base class they inherit from, the `Client._build_auth()` that wires them in, and the `_auth_flow` generator that orchestrates the challenge-response cycle. Those are structurally connected, not semantically similar. Embeddings can't see inheritance hierarchies or call graphs.
 
