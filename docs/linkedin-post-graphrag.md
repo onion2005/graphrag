@@ -16,41 +16,13 @@ Code has a formal, parseable structure — an AST. Every class, function, and me
 
 ![Evaluation Summary](../eval/eval_summary.png)
 
-AST graph expansion more than doubled total recall (25.6% to 59.9%). But it didn't improve Recall@10 or NDCG@10 at all. This is the critical nuance that changes how you architect the system:
+AST graph expansion more than doubled total recall (22.9% to 53.5%). But it didn't improve Recall@10 or NDCG@10 at all. This is the critical nuance that changes how you architect the system:
 
 **1. Graph is a recall expander, not a ranker.** Graph-discovered symbols rank below vector hits. If your application only consumes top-10 results, graph adds nothing. If it can use 20-30 results — an agent with tool calls, a context window that tolerates more code — graph is a 2.3x recall multiplier. The architectural implication: graph expansion only pays off downstream of an agent or re-ranker that can handle a larger candidate set.
 
 **2. The build-vs-buy decision for graph extraction is unintuitive.** I spent 500 LLM calls extracting SIMILAR_TO / DEPENDS_ON edges within a single repo (478 edges). Zero recall improvement. The AST parser — which runs in seconds, costs nothing, and requires no prompt engineering — produced all the signal. **Within a single codebase, structural relationships dominate semantic ones.** CALLS and INHERITS edges encode architecture. LLM-inferred edges just rediscover what the import graph already knows.
 
-You also have a choice in *how* you build the AST graph. I compared my hand-rolled Python AST parser against [Graphify](https://github.com/Graphify-Labs/graphify), an open-source tool that uses tree-sitter for the same deterministic extraction. I ran both on httpx:
-
-|  | Custom AST Parser | Graphify |
-|---|---|---|
-| **Nodes (httpx)** | 1,192 (code only) | 1,777 (incl. 799 test, 267 rationale, 62 concept) |
-| **Edges (httpx)** | 1,328 | 3,613 |
-| **Languages** | Python only | ~40 (tree-sitter grammars) |
-| **Edge types** | CALLS, IMPORTS, INHERITS, USES_TYPE | calls, imports, inherits, references, uses, indirect_call, method, + 5 more |
-| **Node identity** | Custom global IDs (hash-based, repo-scoped) | Auto-generated, no custom ID scheme |
-| **Graph storage** | Neo4j (queryable, supports Cypher) | JSON + HTML viz (Neo4j export via Cypher dump) |
-| **Schema control** | Full — custom properties, edge types, indexes | Fixed schema |
-| **Community detection** | None | Leiden algorithm, auto-labels subsystems |
-| **Visualization** | Neo4j Browser | Built-in interactive force-directed graph |
-| **Incremental updates** | Full re-parse | `--update` rescans only changed files |
-| **Non-code sources** | None | Docs, PDFs, images, SQL schemas |
-| **Setup time** | ~2 days to build | `pip install graphifyy` |
-
-Graphify finds 2.7x more edges — finer-grained types like `references`, `indirect_call`, `imports_from`. More edges should mean better recall, right? I tested it. Mapped Graphify's graph into my eval pipeline (333 edges that matched my node schema) and ran the same 28 queries:
-
-| | Custom AST | Graphify |
-|---|---|---|
-| **Total recall** | **53.5%** | 35.2% |
-| **Queries won** | **13** | 2 |
-
-More edges ≠ better retrieval. The custom parser's `CONTAINS` edges (class→methods, module→functions) are the recall workhorse — they connect parent symbols to children, which is exactly what graph expansion needs. Graphify's finer-grained edges (`uses`, `references`) connect at the method level, but those methods aren't in the vector store as separate entry points, so graph expansion can't reach them.
-
-The trade-off is control vs. speed-to-value. Graphify gives you 40 languages, community detection, incremental updates, and a visualization out of the box. But I needed stable global IDs across repos so cross-repo LLM edges could reference nodes deterministically, custom Neo4j indexes for graph traversal queries, and full control over edge types for the retrieval pipeline. With an off-the-shelf tool, you can't own the identity layer — and as the eval shows, graph structure choices directly impact recall.
-
-The principal's calculus: if you're building a single-repo prototype or want fast architectural insight, use Graphify — it's genuinely good. If you're designing a multi-repo retrieval system where node identity matters across pipelines and you need the graph as a queryable backend (not just a visualization), you'll end up owning the parser anyway.
+I also compared my hand-rolled Python AST parser against [Graphify](https://github.com/Graphify-Labs/graphify), an open-source tree-sitter tool. More edges didn't mean better recall — details in [the comparison post](linkedin-post-graphify.md).
 
 **3. But this breaks down across repo boundaries.**
 

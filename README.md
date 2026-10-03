@@ -107,3 +107,4 @@ python -m agent.run "How does httpx handle authentication?"
 
 - [Self-Hosted LLM on EKS — Cost & Latency Analysis](docs/linkedin-post-vllm-eks.md)
 - [GraphRAG: When Vector Search Isn't Enough](docs/linkedin-post-graphrag.md)
+- [Custom AST Parser vs Graphify](docs/linkedin-post-graphify.md)
