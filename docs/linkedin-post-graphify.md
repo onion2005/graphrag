@@ -23,23 +23,25 @@ I ran both on httpx:
 
 Graphify found 2.7x more edges. So I plugged it into my retrieval eval to see if more edges = better recall.
 
-**The caveat:** my retrieval pipeline (ChromaDB + Neo4j) was built around my parser's node schema. Both parsers extract methods, but with different naming — mine stores `BasicAuth.__init__`, Graphify stores `.__init__()`. The ID mapping only connected 333 of Graphify's 3,613 edges (9%). So this measures pipeline fit, not graph quality in the abstract.
+**The caveat:** my retrieval pipeline (ChromaDB + Neo4j) was built around my parser's node schema. Both parsers extract methods, but with different naming — mine stores `BasicAuth.__init__`, Graphify stores `.__init__()`. My first attempt only mapped 9% of edges, which wasn't a fair test. After fixing the name matching (using Graphify's containment tree to resolve class context), I got to 89% match rate — 1,057 of 3,613 edges connected.
 
 Results (28 queries against httpx):
 
 | | Custom AST | Graphify |
 |---|---|---|
-| **Total recall** | **53.5%** | 35.2% |
-| **Queries won** | **13** | 2 |
+| **Total recall** | **54.2%** | 46.4% |
+| **Queries won** | **9** | 5 |
+
+Closer than I expected. Graphify won big on redirect handling (+80%) and async client queries (+40%). My parser won on URL parsing, utility functions, and status codes.
 
 **What I can say:**
-- If you build a retrieval pipeline around a specific node schema, swapping in a different parser's graph without adapting the pipeline doesn't work well
-- The 91% of unmapped edges aren't "wrong" — they just don't connect to anything in my vector store
-- Pipeline fit matters as much as graph quality
+- My parser still wins overall, but the gap is smaller than I initially thought (8pp, not 18pp)
+- Graphify's finer-grained edges (`references`, `indirect_call`) do help on some query types
+- The remaining 11% of unmapped edges could close the gap further — pipeline fit still matters
 
 **What I can't say:**
-- That my parser produces a "better" graph than Graphify
-- With a pipeline designed around Graphify's granularity and naming, results could be different — I didn't test that
+- That my parser produces a definitively "better" graph than Graphify
+- With a pipeline designed around Graphify's granularity from the start, results could be different
 
 **What I liked about Graphify:**
 - Fast to set up — `pip install`, one command, graph with community detection and visualization
