@@ -1,8 +1,10 @@
-# LinkedIn Post — Custom AST Parser vs Graphify: More Edges ≠ Better Retrieval
+# LinkedIn Post — I Tested My AST Parser Against Graphify. Here's What Actually Happened.
 
-This is a companion to my [GraphRAG post](linkedin-post-graphrag.md) — the build-vs-buy deep dive on graph extraction.
+This is a companion to my [GraphRAG post](linkedin-post-graphrag.md) — the build-vs-buy detail on graph extraction.
 
-I compared my hand-rolled Python AST parser against [Graphify](https://github.com/Graphify-Labs/graphify), an open-source tool that uses tree-sitter for deterministic code graph extraction. I ran both on httpx:
+I needed a code knowledge graph for retrieval. Built my own Python AST parser over ~2 days, loaded everything into Neo4j. Then I found [Graphify](https://github.com/Graphify-Labs/graphify), an open-source tree-sitter tool that does the same thing but supports ~40 languages out of the box. Natural question: should I have just used Graphify?
+
+I ran both on httpx:
 
 |  | Custom AST Parser | Graphify |
 |---|---|---|
@@ -19,20 +21,37 @@ I compared my hand-rolled Python AST parser against [Graphify](https://github.co
 | **Non-code sources** | None | Docs, PDFs, images, SQL schemas |
 | **Setup time** | ~2 days to build | `pip install graphifyy` |
 
-Graphify finds 2.7x more edges — finer-grained types like `references`, `indirect_call`, `imports_from`. More edges should mean better recall, right?
+Graphify found 2.7x more edges. So I plugged it into my retrieval eval to see if more edges = better recall.
 
-I tested it. Mapped Graphify's graph into my eval pipeline and ran the same 28 queries. Only 333 of Graphify's 3,613 edges mapped to my node schema — Graphify extracts methods as separate nodes while my parser doesn't — so this comparison reflects how each graph integrates into the same retrieval pipeline, not a pure graph-quality comparison.
+**The caveat:** my retrieval pipeline (ChromaDB + Neo4j) was built around my parser's node schema. Both parsers extract methods, but with different naming — mine stores `BasicAuth.__init__`, Graphify stores `.__init__()`. The ID mapping only connected 333 of Graphify's 3,613 edges (9%). So this measures pipeline fit, not graph quality in the abstract.
+
+Results (28 queries against httpx):
 
 | | Custom AST | Graphify |
 |---|---|---|
 | **Total recall** | **53.5%** | 35.2% |
 | **Queries won** | **13** | 2 |
 
-The custom parser's `CONTAINS` edges (class→methods, module→functions) are the recall workhorse — they connect parent symbols to children, which is exactly what graph expansion needs. Graphify's finer-grained edges (`uses`, `references`) connect at the method level, but those methods aren't in the vector store as separate entry points, so graph expansion can't reach them.
+**What I can say:**
+- If you build a retrieval pipeline around a specific node schema, swapping in a different parser's graph without adapting the pipeline doesn't work well
+- The 91% of unmapped edges aren't "wrong" — they just don't connect to anything in my vector store
+- Pipeline fit matters as much as graph quality
 
-**The trade-off is control vs. speed-to-value.** Graphify gives you 40 languages, community detection, incremental updates, and a visualization out of the box. But I needed stable global IDs across repos so cross-repo LLM edges could reference nodes deterministically, custom Neo4j indexes for graph traversal queries, and full control over edge types for the retrieval pipeline. With an off-the-shelf tool, you can't own the identity layer — and as the eval shows, graph structure choices directly impact recall.
+**What I can't say:**
+- That my parser produces a "better" graph than Graphify
+- With a pipeline designed around Graphify's granularity and naming, results could be different — I didn't test that
 
-If you're building a single-repo prototype or want fast architectural insight, use Graphify — it's genuinely good. If you're designing a multi-repo retrieval system where node identity matters across pipelines and you need the graph as a queryable backend, you'll end up owning the parser anyway.
+**What I liked about Graphify:**
+- Fast to set up — `pip install`, one command, graph with community detection and visualization
+- Leiden community detection is useful for spotting subsystems in unfamiliar codebases
+- ~40 languages out of the box, incremental updates, non-code source support
+
+**Where I hit friction:**
+- I needed stable global IDs so cross-repo LLM edges could reference nodes deterministically — Graphify auto-generates IDs with no way to plug in your own scheme
+- I needed Neo4j as a queryable backend for graph traversal during retrieval, not just a visualization
+- These are specific to building a retrieval pipeline, not general complaints about the tool
+
+**My take:** if you're exploring a codebase or building a single-repo prototype, start with Graphify. If you're building a multi-repo retrieval pipeline where you need to control the identity layer and query the graph programmatically, you'll probably end up writing your own parser. I don't regret building mine, but I also wouldn't build one if Graphify covered my requirements.
 
 Code: https://github.com/onion2005/graphrag
 
