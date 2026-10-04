@@ -34,20 +34,41 @@ Traditional RAG retrieves code by semantic similarity — but misses structural 
 
 ## Key Results
 
-### Single-Repo GraphRAG (httpx)
+### Experiment 1: Single-Repo GraphRAG (httpx, 28 queries)
 
-- AST graph expansion **more than doubles total recall** (25.6% → 59.9%) — finds symbols embeddings miss entirely
-- Graph is a **pure recall expander**: top-k ranking (Recall@10, NDCG@10) is identical with or without graph — graph nodes rank below vector hits
-- Within-repo LLM edges (478 SIMILAR_TO/DEPENDS_ON) added **zero recall** — AST parser edges did all the work
-- Graph without vector entry points is useless — you need both, in sequence
+- AST graph expansion **more than doubles total recall** (22.9% → 54.2%) — finds symbols embeddings miss entirely
+- Graph is a **recall expander, not a ranker**: Recall@10 and NDCG@10 are identical with or without graph — graph-discovered symbols always rank below vector hits
+- Why? Graph finds structurally important but semantically distant symbols. `_build_auth()` doesn't score high against "how does authentication work?" even though it's the method that wires auth in. Boosting graph scores would push irrelevant neighbors above relevant vector hits. The fix is a re-ranker or agent downstream that can consume 20-30 candidates
+- Within-repo LLM edges (500 calls, 478 SIMILAR_TO/DEPENDS_ON edges) added **zero recall** — the AST parser already captured all the signal. CALLS and INHERITS encode architecture; LLM edges just rediscovered what the import graph already knew
 
-### Cross-Repo GraphRAG (httpx + requests + urllib3)
+### Experiment 2: Cross-Repo GraphRAG (httpx + requests + urllib3, 12 queries)
 
-- **LLM edges add unique value across repo boundaries** — where AST edges can't reach
-- 538 cross-repo LLM edges extracted via Claude Haiku across 3 repos (2,080 nodes)
-- AST alone: 45.4% total recall → AST + cross-repo LLM: **48.7%** (+3.3pp)
-- LLM edges found symbols AST couldn't: `urllib3/GzipDecoder`, `requests/request`, `urllib3/encode_multipart_formdata` — connected by semantic similarity, not imports
-- **Conclusion:** within a single repo, AST is king. Across repos at scale, LLM edges fill the gap AST can't cover
+- AST edges can't cross repo boundaries — there's no IMPORT from `httpx.BasicAuth` to `requests.HTTPBasicAuth`
+- **Pair selection:** 2,080 nodes = 4.3M possible pairs. Brute-forcing LLM calls is impractical. Instead: embed all symbols, compute cosine similarity across repos only (skip same-repo), take the top 500 pairs, LLM-validate each. 500 calls, not 4.3M
+- Result: 538 cross-repo edges. AST alone: 45.4% total recall → AST + cross-repo LLM: **48.8%** (+3.4pp)
+- LLM edges found symbols AST couldn't: `urllib3/GzipDecoder` → `httpx/GZipDecoder`, `urllib3/encode_multipart_formdata` → `httpx/MultipartStream` — structurally invisible but semantically equivalent
+
+### Experiment 3: Custom AST Parser vs Graphify
+
+Compared against [Graphify](https://github.com/Graphify-Labs/graphify), an open-source tree-sitter code graph tool:
+
+- Graphify found 2.7x more edges (3,613 vs 1,328) with finer-grained types (`references`, `indirect_call`, `method`)
+- Both parsers extract methods but name them differently (`BasicAuth.__init__` vs `.__init__()`). After fixing the mapping (89% match rate, 1,057 edges connected):
+
+| | Custom AST | Graphify |
+|---|---|---|
+| **Total recall** | **54.2%** | 46.4% |
+| **Queries won** | **9** | 5 |
+
+- Graphify won on redirect handling (+80%) and async client (+40%). Custom parser won on URL parsing, utilities, status codes
+- Key trade-off: Graphify gives ~40 languages, community detection, visualization out of the box. Custom parser gives stable global IDs for cross-repo edges, Neo4j as queryable backend, full schema control
+
+### Takeaway
+
+- **Within a repo:** AST wins. Free, fast, deterministic. LLM edges are expensive noise
+- **Across repos:** LLM is the only option. Embedding-pruned pair selection keeps costs tractable
+- **Build vs buy:** Graphify for prototyping; own the parser if you need cross-repo identity or a queryable graph backend
+- **Production architecture:** AST graph per repo (batch, cheap), cross-repo LLM edges on a schedule (incremental), vector search as entry point, re-ranker downstream
 
 ### Self-Hosted LLM Load Test
 
