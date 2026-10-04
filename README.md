@@ -13,20 +13,7 @@ Traditional RAG retrieves code by semantic similarity — but misses structural 
 
 ## Architecture
 
-```
-                    ┌─────────────────────────────────────────┐
-                    │            EKS Cluster                  │
- Locust/Client      │  ┌───────────────────────────────────┐  │
-     │              │  │   GPU Node (g5.xlarge, 1x A10G)   │  │
-     ▼              │  │                                   │  │
- kubectl            │  │   vLLM v0.8.4                     │  │
- port-forward ──────┤  │     │                             │  │
-                    │  │     ▼                             │  │
-                    │  │   Qwen 2.5 7B Instruct            │  │
-                    │  └───────────────────────────────────┘  │
-                    │         ▲ Karpenter (spot autoscaling)  │
-                    └─────────────────────────────────────────┘
-```
+![Request Flow and Load Test Results — EKS + Karpenter + vLLM + Qwen 2.5 7B](loadtest/hero_linkedin.png)
 
 ## Knowledge Graph
 
@@ -36,12 +23,16 @@ Traditional RAG retrieves code by semantic similarity — but misses structural 
 
 ### Experiment 1: Single-Repo GraphRAG (httpx, 28 queries)
 
+![Evaluation Summary — single-repo recall, cross-repo recall, recall by query category](eval/eval_summary.png)
+
 - AST graph expansion **more than doubles total recall** (22.9% → 54.2%) — finds symbols embeddings miss entirely
 - Graph is a **recall expander, not a ranker**: Recall@10 and NDCG@10 are identical with or without graph — graph-discovered symbols always rank below vector hits
 - Why? Graph finds structurally important but semantically distant symbols. `_build_auth()` doesn't score high against "how does authentication work?" even though it's the method that wires auth in. Boosting graph scores would push irrelevant neighbors above relevant vector hits. The fix is a re-ranker or agent downstream that can consume 20-30 candidates
 - Within-repo LLM edges (500 calls, 478 SIMILAR_TO/DEPENDS_ON edges) added **zero recall** — the AST parser already captured all the signal. CALLS and INHERITS encode architecture; LLM edges just rediscovered what the import graph already knew
 
 ### Experiment 2: Cross-Repo GraphRAG (httpx + requests + urllib3, 12 queries)
+
+![Cross-Repo Recall — AST + LLM edges vs AST only](eval/cross_repo_recall.png)
 
 - AST edges can't cross repo boundaries — there's no IMPORT from `httpx.BasicAuth` to `requests.HTTPBasicAuth`
 - **Pair selection:** 2,080 nodes = 4.3M possible pairs. Brute-forcing LLM calls is impractical. Instead: embed all symbols, compute cosine similarity across repos only (skip same-repo), take the top 500 pairs, LLM-validate each. 500 calls, not 4.3M
@@ -83,6 +74,8 @@ Tested with Locust against Qwen 2.5 7B on vLLM (g5.xlarge):
 | Agent multi-turn | 25s | 32s |
 
 **Cost:** $724/mo on-demand, $252/mo spot — beats Claude Haiku API above ~7K daily requests (spot).
+
+![Cost Crossover — Self-hosted vs API pricing by daily request volume](loadtest/cost_crossover.png)
 
 ## Project Structure
 
