@@ -6,14 +6,10 @@ A proof-of-concept AI platform that combines vector search with graph-based code
 
 Traditional RAG retrieves code by semantic similarity — but misses structural relationships like inheritance, function calls, and cross-file dependencies. This project builds a **GraphRAG** system that:
 
-1. **Parses** a Python codebase (httpx) into an AST-based knowledge graph (Neo4j)
+1. **Parses** Python codebases (httpx, requests, urllib3) into an AST-based knowledge graph (Neo4j)
 2. **Embeds** code symbols into a vector store (ChromaDB + BGE embeddings)
 3. **Retrieves** using hybrid search: vector finds entry points, graph expansion walks structural edges (CALLS, INHERITS, IMPORTS) to discover related symbols
 4. **Reasons** via a LangGraph agent with tool-calling capabilities
-
-## Architecture
-
-![Request Flow and Load Test Results — EKS + Karpenter + vLLM + Qwen 2.5 7B](loadtest/hero_linkedin.png)
 
 ## Knowledge Graph
 
@@ -21,9 +17,9 @@ Traditional RAG retrieves code by semantic similarity — but misses structural 
 
 ## Key Results
 
-### Experiment 1: Single-Repo GraphRAG (httpx, 28 queries)
-
 ![Evaluation Summary — single-repo recall, cross-repo recall, recall by query category](eval/eval_summary.png)
+
+### Experiment 1: Single-Repo GraphRAG (httpx, 28 queries)
 
 - AST graph expansion **more than doubles total recall** (22.9% → 54.2%) — finds symbols embeddings miss entirely
 - Graph is a **recall expander, not a ranker**: Recall@10 and NDCG@10 are identical with or without graph — graph-discovered symbols always rank below vector hits
@@ -37,9 +33,12 @@ Traditional RAG retrieves code by semantic similarity — but misses structural 
 - AST edges can't cross repo boundaries — there's no IMPORT from `httpx.BasicAuth` to `requests.HTTPBasicAuth`
 - **Pair selection:** 2,080 nodes = 4.3M possible pairs. Brute-forcing LLM calls is impractical. Instead: embed all symbols, compute cosine similarity across repos only (skip same-repo), take the top 500 pairs, LLM-validate each. 500 calls, not 4.3M
 - Result: 538 cross-repo edges. AST alone: 45.4% total recall → AST + cross-repo LLM: **48.8%** (+3.4pp)
+- Cross-repo LLM edges alone (without AST) scored only 31.4% — worse than AST alone. LLM edges complement AST, they don't replace it
 - LLM edges found symbols AST couldn't: `urllib3/GzipDecoder` → `httpx/GZipDecoder`, `urllib3/encode_multipart_formdata` → `httpx/MultipartStream` — structurally invisible but semantically equivalent
 
 ### Experiment 3: Custom AST Parser vs Graphify
+
+![Custom AST Parser vs Graphify — total recall comparison](eval/graphify_comparison.png)
 
 Compared against [Graphify](https://github.com/Graphify-Labs/graphify), an open-source tree-sitter code graph tool:
 
@@ -54,14 +53,9 @@ Compared against [Graphify](https://github.com/Graphify-Labs/graphify), an open-
 - Graphify won on redirect handling (+80%) and async client (+40%). Custom parser won on URL parsing, utilities, status codes
 - Key trade-off: Graphify gives ~40 languages, community detection, visualization out of the box. Custom parser gives stable global IDs for cross-repo edges, Neo4j as queryable backend, full schema control
 
-### Takeaway
-
-- **Within a repo:** AST wins. Free, fast, deterministic. LLM edges are expensive noise
-- **Across repos:** LLM is the only option. Embedding-pruned pair selection keeps costs tractable
-- **Build vs buy:** Graphify for prototyping; own the parser if you need cross-repo identity or a queryable graph backend
-- **Production architecture:** AST graph per repo (batch, cheap), cross-repo LLM edges on a schedule (incremental), vector search as entry point, re-ranker downstream
-
 ### Self-Hosted LLM Load Test
+
+![Request Flow and Load Test Results — EKS + Karpenter + vLLM + Qwen 2.5 7B](loadtest/hero_linkedin.png)
 
 Tested with Locust against Qwen 2.5 7B on vLLM (g5.xlarge):
 
@@ -76,6 +70,13 @@ Tested with Locust against Qwen 2.5 7B on vLLM (g5.xlarge):
 **Cost:** $724/mo on-demand, $252/mo spot — beats Claude Haiku API above ~7K daily requests (spot).
 
 ![Cost Crossover — Self-hosted vs API pricing by daily request volume](loadtest/cost_crossover.png)
+
+### Takeaway
+
+- **Within a repo:** AST wins. Free, fast, deterministic. LLM edges are expensive noise
+- **Across repos:** LLM is the only option. Embedding-pruned pair selection keeps costs tractable. But LLM edges alone aren't enough — they complement AST, not replace it
+- **Build vs buy:** Graphify for prototyping; own the parser if you need cross-repo identity or a queryable graph backend
+- **Production architecture:** AST graph per repo (batch, cheap), cross-repo LLM edges on a schedule (incremental), vector search as entry point, re-ranker downstream
 
 ## Project Structure
 
