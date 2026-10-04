@@ -2,43 +2,27 @@
 
 Vector search on code has a blind spot. It finds what's similar, not what's connected.
 
-I asked "how does httpx handle authentication?" and vector search returned `BasicAuth`, `DigestAuth`, `NetRCAuth` — all semantically similar to my query. But it missed `Client._build_auth()` that wires them into the request lifecycle, and the `_auth_flow` generator that orchestrates the challenge-response cycle. These symbols don't appear in the same chunks as the auth classes — they live in `_client.py`, not `_auth.py`. Embeddings work on text proximity. The AST knows they're connected through call graphs.
+I asked "how does httpx handle authentication?" and vector search returned `BasicAuth`, `DigestAuth`, `NetRCAuth`. But it missed `Client._build_auth()` that wires them into the request lifecycle — that lives in `_client.py`, not `_auth.py`. Embeddings work on text proximity. The AST knows they're connected through call graphs.
 
-Miss that wiring, and your AI coding assistant generates code that calls `BasicAuth` directly but bypasses the auth flow. That's not a search quality problem — it's a correctness problem.
-
-So I built a GraphRAG system. The idea is simple: code already has a graph — the AST. Classes, functions, methods are nodes. CALL, IMPORT, INHERIT are edges. Vector search finds entry points, then graph expansion walks those edges to pull in related symbols the embeddings missed.
-
-![Neo4j Knowledge Graph — 2,080 nodes, 2,940 relationships across httpx, requests, urllib3](../docs/neo4j-graph.png)
-
-Here's what I found, and what surprised me:
+So I built a GraphRAG system: vector search finds entry points, then graph expansion walks AST edges (CALL, IMPORT, INHERIT) to pull in related symbols the embeddings missed. Tested it on 3 Python repos (httpx, requests, urllib3), 2,080 nodes, 28 queries.
 
 ![Evaluation Summary](../eval/eval_summary.png)
 
-**Experiment 1: single-repo (httpx, 28 queries)**
+What I found:
 
-1. **Graph finds more relevant results, but doesn't rank them well.** Graph expansion more than doubled total recall (22.9% to 54.2% across all returned results). But it didn't improve Recall@10 or NDCG@10 at all. Graph-discovered symbols always rank below the original vector hits. Why? It's not a tuning problem. Graph finds symbols that are structurally important but semantically distant from the query — `_build_auth()` doesn't score high against "how does authentication work?" even though it's the method that wires auth in. You could boost graph scores, but then you'd push irrelevant neighbors above relevant vector hits. The real fix is downstream: a re-ranker or agent that can work with 20-30 candidates instead of 10. That's where graph becomes a 2.4x total recall multiplier.
+1. **Graph more than doubled recall (22.9% → 54.2%), but doesn't help ranking.** Graph-discovered symbols always rank below vector hits. `_build_auth()` is structurally important but doesn't score high against "how does authentication work?" You can't just boost graph scores — that pushes irrelevant neighbors up. You need a re-ranker or agent downstream that can work with 20-30 candidates instead of 10.
 
-2. **LLM-extracted edges added zero recall within a single repo.** 500 LLM calls, 478 SIMILAR_TO/DEPENDS_ON edges, no improvement. The AST parser — seconds to run, zero cost — already had all the signal. CALLS and INHERITS encode the architecture. LLM edges just rediscovered what the import graph already knew.
+2. **Within a single repo, LLM-extracted edges are a waste.** 500 LLM calls, 478 edges, zero recall improvement. The AST parser — seconds to run, zero cost — already had all the signal.
 
-3. **Graphify's graph is competitive but my parser still wins.** I benchmarked my parser against [Graphify](https://github.com/Graphify-Labs/graphify), an open-source tree-sitter tool. Graphify found 2.7x more edges. After fixing the node mapping (89% match rate, 1,057 of 3,613 edges connected), my parser still came out ahead: 54.2% vs 46.4% total recall. But Graphify won on 5 queries (redirect handling, async client), so it's not a blowout — more of a pipeline-fit difference. Details [here](linkedin-post-graphify.md).
+3. **Across repos, LLM edges are the only option.** AST can't cross repo boundaries. I used embedding similarity to prune 4.3M possible pairs down to 500, then had Claude Haiku validate each. 538 cross-repo edges, +3.4pp recall.
 
-**Experiment 2: cross-repo (httpx + requests + urllib3, 12 queries)**
+4. **I benchmarked against Graphify (open-source, tree-sitter).** With fair node mapping (89% match rate), my parser still won: 54.2% vs 46.4%. But Graphify won 5 of 28 queries. Details in a [separate post](linkedin-post-graphify.md).
 
-4. **AST breaks down across repo boundaries — and that's where LLM edges actually help.** There's no IMPORT edge from `httpx.BasicAuth` to `requests.HTTPBasicAuth`. So I ran a separate experiment: 3 repos, 2,080 nodes total (same graph as the Neo4j screenshot above). The problem is pair selection — 2,080 nodes means 4.3M possible pairs, and you can't LLM-call all of them. I embedded everything, computed cosine similarity across repos only, took the top 500 pairs, and had Claude Haiku validate each one. 500 calls instead of 4.3M. Got 538 cross-repo edges.
+My take: AST graph per repo (cheap, deterministic), LLM edges across repos (embedding-pruned), vector search as entry point, re-ranker downstream. Full methodology and eval results in the repo.
 
-Result: AST alone gave 45.4% total recall on the cross-repo queries. Adding LLM edges pushed it to 48.8%. The +3.4pp came from things like `urllib3/GzipDecoder` → `httpx/GZipDecoder` and `urllib3/encode_multipart_formdata` → `httpx/MultipartStream`. Symbols that are structurally invisible but doing the same thing.
-
-So where does this leave things? After running all these experiments, my take is:
-
-- **Within a repo:** just use AST. It's free, fast, and got better recall than 500 LLM calls. Don't overthink it.
-- **Across repos:** LLM is the only option since AST stops at the repo boundary. The embed-then-validate approach keeps costs sane.
-- **Across languages:** I only tested Python, but I'd expect AST to get painful at scale. Per-language parsers at 10,000 repos in 15 languages is a maintenance problem. LLM extraction doesn't care what language it's reading — though I haven't validated that yet.
-- **Build vs buy:** off-the-shelf tools like Graphify get you up fast (~40 languages, community detection, visualization). But if you need stable node IDs across repos or a queryable graph backend, you'll end up owning the parser.
-
-If I were building this for production: AST graph per repo (batch job, cheap), cross-repo LLM edges on a schedule (embedding-pruned, incremental), vector search as the entry point, re-ranker downstream.
-
-Stack: Python, Neo4j, ChromaDB, LangGraph agent, BGE embeddings, Claude Haiku. Code: https://github.com/onion2005/graphrag
+Stack: Python, Neo4j, ChromaDB, LangGraph, BGE embeddings, Claude Haiku.
+Code: https://github.com/onion2005/graphrag
 
 ---
 
-#GraphRAG #RAG #KnowledgeGraph #Neo4j #CodeSearch #InformationRetrieval #AIEngineering #GenAI
+#GraphRAG #RAG #KnowledgeGraph #Neo4j #CodeSearch #AIEngineering #GenAI
