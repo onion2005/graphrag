@@ -61,7 +61,7 @@ Important: this is one model on one GPU. If your deployment needs 2-3 models, se
 
 **Architectural:**
 - A single A10G is a bottleneck at real concurrency. Production needs a larger instance (g5.2xlarge+) or request batching
-- vLLM serves one model per process. A 7B model at fp16 takes ~14GB of the A10G's 24GB VRAM. Most production setups run multiple vLLM instances behind a router (like LiteLLM), each on its own GPU. If your models are fine-tuned variants of the same base, vLLM can hot-swap LoRA adapters per request on a single GPU instead — but I didn't test this
+- vLLM serves one model per process. A 7B model at fp16 takes ~14GB of the A10G's 24GB VRAM. Most production setups run multiple vLLM instances behind a router (like [LiteLLM Gateway](https://github.com/onion2005/LLM-Gateway)), each on its own GPU. If your models are fine-tuned variants of the same base, vLLM can hot-swap LoRA adapters per request on a single GPU instead — but I didn't test this
 - In production you'd keep at least 1 replica warm. I built Karpenter scale-to-zero for dev to avoid paying for idle GPU — cold start is ~3-4 min (model loading), fine for POC but not production
 - Tool calling with Qwen 7B works (Hermes format) but isn't frontier quality. Simple calls are fine, complex multi-step reasoning breaks down. The right next step would be running the same eval queries through both Qwen 7B and Claude Haiku and comparing tool-call success rates — I didn't do that, which is a gap in this analysis
 
@@ -74,6 +74,7 @@ No general rule — depends on your workload, model count, and quality requireme
 **Use APIs when:** latency matters, volume is bursty or low, you need frontier-model quality, or you'd need multiple models (which multiplies GPU cost).
 
 Code + infra manifests: https://github.com/onion2005/graphrag
+LiteLLM Gateway (router for multiple vLLM instances): https://github.com/onion2005/LLM-Gateway
 
 ---
 
