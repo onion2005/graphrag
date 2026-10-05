@@ -65,6 +65,12 @@ Important: this is one model on one GPU. If your deployment needs 2-3 models, se
 - In production you'd keep at least 1 replica warm. I built Karpenter scale-to-zero for dev to avoid paying for idle GPU — cold start is ~3-4 min (model loading), fine for POC but not production
 - Tool calling with Qwen 7B works (Hermes format) but isn't frontier quality. Simple calls are fine, complex multi-step reasoning breaks down. The right next step would be running the same eval queries through both Qwen 7B and Claude Haiku and comparing tool-call success rates — I didn't do that, which is a gap in this analysis
 
+## What I'd Optimize Next
+
+Quantization. My deployment runs Qwen 7B at FP16 (~14GB VRAM on a 24GB A10G). Switching to INT8 (AWQ or GPTQ) would roughly halve that to ~7GB — enough to fit a second model on the same GPU, or free headroom for longer contexts and higher concurrency. vLLM supports this with a single flag (`--quantization awq`). Quality loss on INT8 is minimal for most tasks; INT4 is more aggressive and would need testing, especially for tool calling where the model is already borderline.
+
+This is probably the highest-leverage change I didn't make. The cost table above assumes one model per GPU — quantization could change that math significantly.
+
 ## When Does Self-Hosting Make Sense?
 
 No general rule — depends on your workload, model count, and quality requirements.
