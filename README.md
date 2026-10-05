@@ -57,6 +57,41 @@ Compared against [Graphify](https://github.com/Graphify-Labs/graphify), an open-
 
 ![Request Flow and Load Test Results — EKS + Karpenter + vLLM + Qwen 2.5 7B](loadtest/hero_linkedin.png)
 
+**LLM Serving Architecture:**
+
+```
+              ┌─────────────────────┐
+              │   Application Layer  │
+              │  (Agent, Extractor,  │
+              │    Eval, Locust)     │
+              └─────────┬───────────┘
+                        │ OpenAI-compatible API
+                        ▼
+              ┌─────────────────────┐
+              │   LiteLLM Gateway   │
+              │  (model router)     │
+              └──┬──────┬──────┬────┘
+                 │      │      │
+            ┌────▼──┐ ┌─▼──────┐ ┌──▼──────┐
+            │ vLLM  │ │  vLLM  │ │  vLLM   │
+            │(Qwen) │ │(Mistr.)│ │  (...)  │
+            └───┬───┘ └───┬────┘ └───┬─────┘
+                │         │          │
+            ┌───▼───┐ ┌───▼────┐ ┌───▼─────┐
+            │ A10G  │ │ A10G   │ │  A10G   │
+            └───┬───┘ └───┬────┘ └───┬─────┘
+                └─────────┼──────────┘
+                          │
+              ┌───────────▼─────────────┐
+              │ Karpenter (spot, scale  │
+              │ to-zero / scale-out)    │
+              └───────────┬─────────────┘
+                          │
+              ┌───────────▼─────────────┐
+              │       EKS Cluster       │
+              └─────────────────────────┘
+```
+
 Tested with Locust against Qwen 2.5 7B on vLLM (g5.xlarge):
 
 | Workload | P50 | P95 |
